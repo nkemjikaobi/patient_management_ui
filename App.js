@@ -4,9 +4,22 @@ import { NavigationContainer } from '@react-navigation/native';
 import DashboardTab from './components/DashboardTab/DashboardTab';
 import PatientsTab from './components/PatientsTab/PatientsTab';
 import Svg, { Path } from 'react-native-svg';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import AddPatients from './components/AddPatient/AddPatient';
 
 export default function App() {
+	const Stack = createNativeStackNavigator();
 	const Tab = createBottomTabNavigator();
+
+	//Patients Stack
+	const PatientsStack = () => {
+		return (
+			<Stack.Navigator>
+				<Stack.Screen name='AllPatients' component={PatientsTab} />
+				<Stack.Screen name='Add Patient' component={AddPatients} />
+			</Stack.Navigator>
+		);
+	};
 
 	return (
 		<View style={styles.container}>
@@ -41,7 +54,7 @@ export default function App() {
 					/>
 					<Tab.Screen
 						name='Patients'
-						component={PatientsTab}
+						component={PatientsStack}
 						options={{
 							headerShown: false,
 							tabBarIcon: ({ color, size }) =>

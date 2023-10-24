@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import PatientListing from '../PatientListing/PatientListing';
 
-export default function PatientsTab() {
+export default function PatientsTab(props) {
 	return (
 		<View style={styles.wrapper}>
 			<View style={{ paddingHorizontal: 20 }}>
@@ -22,7 +22,10 @@ export default function PatientsTab() {
 				<PatientListing />
 			</View>
 			<View style={styles.buttonContainer}>
-				<TouchableOpacity style={styles.add_patient_btn}>
+				<TouchableOpacity
+					onPress={() => props.navigation.navigate('Add Patient')}
+					style={styles.add_patient_btn}
+				>
 					<Text style={{ color: '#fff' }}>Add New Patient</Text>
 				</TouchableOpacity>
 			</View>
