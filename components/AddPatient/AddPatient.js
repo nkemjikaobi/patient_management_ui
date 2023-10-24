@@ -10,16 +10,28 @@ import {
 import PatientProfilePic from '../../assets/images/patient-image.png';
 import Svg, { Path } from 'react-native-svg';
 import { Dropdown } from 'react-native-element-dropdown';
-import DatePicker from 'react-native-date-picker';
-import { Button } from 'react-native';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 const AddPatient = () => {
 	const [gender, setGender] = useState(null);
 	const [genoType, setGenoType] = useState(null);
 	const [bloodGroup, setBloodGroup] = useState(null);
-	const [isFocus, setIsFocus] = useState(false);
 	const [date, setDate] = useState(new Date());
-	const [open, setOpen] = useState(false);
+	const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+	const showDatePicker = () => {
+		setDatePickerVisibility(true);
+	};
+
+	const hideDatePicker = () => {
+		setDatePickerVisibility(false);
+	};
+
+	const handleConfirm = date => {
+		console.warn('A date has been picked: ', date);
+		setDate(date);
+		hideDatePicker();
+	};
 
 	const genderData = [
 		{ label: 'Male', value: 'male' },
@@ -94,7 +106,7 @@ const AddPatient = () => {
 					<Text style={{ marginBottom: 8 }}>Gender*</Text>
 					<View style={styles.container}>
 						<Dropdown
-							style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+							style={[styles.dropdown]}
 							placeholderStyle={styles.placeholderStyle}
 							selectedTextStyle={styles.selectedTextStyle}
 							inputSearchStyle={styles.inputSearchStyle}
@@ -104,7 +116,7 @@ const AddPatient = () => {
 							maxHeight={300}
 							labelField='label'
 							valueField='value'
-							placeholder={!isFocus ? 'Select gender' : '...'}
+							placeholder='Select gender'
 							searchPlaceholder='Search...'
 							value={gender}
 							onChange={item => {
@@ -113,23 +125,22 @@ const AddPatient = () => {
 						/>
 					</View>
 				</View>
-				<>
-					{/* <Button title='Open' onPress={() => setOpen(true)} /> */}
-					{/* <DatePicker
-						modal
-						open={true}
-						// open={open}
-						date={date}
-						onConfirm={date => {
-							setOpen(false);
-							setDate(date);
-						}}
-						onCancel={() => {
-							setOpen(false);
-						}}
-					/> */}
-					{/* <DatePicker date={date} onDateChange={setDate} /> */}
-				</>
+				<View>
+					<Text>Date of Birth*</Text>
+					<DateTimePickerModal
+						isVisible={isDatePickerVisible}
+						mode='date'
+						onConfirm={handleConfirm}
+						onCancel={hideDatePicker}
+					/>
+					<TextInput
+						style={styles.input}
+						placeholder='24 May 2008'
+						editable={false}
+						value={date}
+						onPressIn={showDatePicker}
+					/>
+				</View>
 				<View
 					style={{
 						display: 'flex',
@@ -141,7 +152,7 @@ const AddPatient = () => {
 						<Text style={{ marginBottom: 8 }}>Genotype*</Text>
 						<View style={styles.container}>
 							<Dropdown
-								style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+								style={[styles.dropdown]}
 								placeholderStyle={styles.placeholderStyle}
 								selectedTextStyle={styles.selectedTextStyle}
 								inputSearchStyle={styles.inputSearchStyle}
@@ -151,7 +162,7 @@ const AddPatient = () => {
 								maxHeight={300}
 								labelField='label'
 								valueField='value'
-								placeholder={!isFocus ? 'Select genotype' : '...'}
+								placeholder='Select genotype'
 								searchPlaceholder='Search...'
 								value={genoType}
 								onChange={item => {
@@ -164,7 +175,7 @@ const AddPatient = () => {
 						<Text style={{ marginBottom: 8 }}>Blood Group*</Text>
 						<View style={styles.container}>
 							<Dropdown
-								style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+								style={[styles.dropdown]}
 								placeholderStyle={styles.placeholderStyle}
 								selectedTextStyle={styles.selectedTextStyle}
 								inputSearchStyle={styles.inputSearchStyle}
@@ -174,7 +185,7 @@ const AddPatient = () => {
 								maxHeight={300}
 								labelField='label'
 								valueField='value'
-								placeholder={!isFocus ? 'Select blood group' : '...'}
+								placeholder='Select blood group'
 								searchPlaceholder='Search...'
 								value={bloodGroup}
 								onChange={item => {
