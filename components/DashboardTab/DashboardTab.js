@@ -5,7 +5,7 @@ import AdmittedPatients from '../AdmittedPatients/AdmittedPatients';
 
 export default function DashboardTab() {
 	return (
-		<View style={{ backgroundColor: '#000' }}>
+		<View style={{ paddingTop: 20 }}>
 			<PatientStatistics />
 			<CriticalAttentionPatients />
 			<AdmittedPatients />

@@ -4,17 +4,17 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Svg, { Path } from 'react-native-svg';
 import PatientImg from '../../assets/images/patient.png';
 
-const SingleAdmittedPatientCard = () => {
+const SingleAdmittedPatientCard = ({ patient }) => {
 	return (
 		<View style={styles.wrapper}>
 			<View style={styles.patient_bio_wrapper}>
 				<View style={styles.patient_bio}>
 					<Image source={PatientImg} style={styles.image} />
 					<Text style={{ color: '#141617', fontSize: 14, fontWeight: 'bold' }}>
-						Victor Thompson
+						{patient?.name}
 					</Text>
 				</View>
-				<Text style={{ color: '#141617', fontSize: 13 }}>23 years</Text>
+				<Text style={{ color: '#141617', fontSize: 13 }}>{patient?.age} years</Text>
 			</View>
 			<View style={styles.patient_readings}>
 				<View style={styles.patient_readings_wrapper}>
