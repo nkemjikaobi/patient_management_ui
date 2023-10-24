@@ -25,14 +25,15 @@ export default AdmittedPatients;
 const styles = StyleSheet.create({
 	wrapper: {
 		backgroundColor: '#fff',
-		flex: 1,
+		// flex: 1,
 		paddingHorizontal: 20,
 		paddingTop: 24,
 	},
 	title: {
 		fontSize: 14,
 		fontWeight: 'bold',
-		marginBottom: 12,
+        marginBottom: 12,
+        color: '#000'
 	},
 	input: {
 		height: 44,

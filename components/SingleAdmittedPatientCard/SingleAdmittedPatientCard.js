@@ -14,7 +14,7 @@ const SingleAdmittedPatientCard = () => {
 						Victor Thompson
 					</Text>
 				</View>
-				<Text style={{ color: '#141617', fontSize: '13px' }}>23 years</Text>
+				<Text style={{ color: '#141617', fontSize: 13 }}>23 years</Text>
 			</View>
 			<View style={styles.patient_readings}>
 				<View style={styles.patient_readings_wrapper}>
