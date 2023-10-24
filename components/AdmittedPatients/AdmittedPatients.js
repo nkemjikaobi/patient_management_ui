@@ -13,6 +13,9 @@ const AdmittedPatients = () => {
 				value={''}
 			/>
 			<SingleAdmittedPatientCard />
+			<SingleAdmittedPatientCard />
+			<SingleAdmittedPatientCard />
+			<SingleAdmittedPatientCard />
 		</View>
 	);
 };

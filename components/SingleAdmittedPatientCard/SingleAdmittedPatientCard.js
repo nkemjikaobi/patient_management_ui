@@ -91,6 +91,13 @@ export default SingleAdmittedPatientCard;
 const styles = StyleSheet.create({
 	wrapper: {
 		display: 'flex',
+		marginVertical: 14,
+		borderBottomColor: 'rgba(0, 0, 0, 0.08)',
+		borderWidth: 1,
+		borderLeftWidth: 0,
+		borderRightWidth: 0,
+		borderTopWidth: 0,
+		paddingBottom: 12,
 	},
 	patient_bio: {
 		display: 'flex',
