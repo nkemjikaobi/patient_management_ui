@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
+		paddingHorizontal: 40,
 	},
 	card: {
 		borderColor: 'rgba(143, 143, 143, 0.12)',

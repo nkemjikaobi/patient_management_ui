@@ -19,7 +19,8 @@ export default CriticalAttentionPatients;
 
 const styles = StyleSheet.create({
 	wrapper: {
-		marginTop: 24,
+		marginVertical: 24,
+		paddingHorizontal: 40,
 	},
 	title: {
 		fontSize: 14,
