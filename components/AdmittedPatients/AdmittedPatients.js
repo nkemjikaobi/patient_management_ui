@@ -34,6 +34,26 @@ const AdmittedPatients = () => {
 			name: 'Harrison Wells',
 			age: 53,
 		},
+		{
+			id: '58694a0f-3da1-471f-bd96-145571e29d72d',
+			name: 'Hannah Baker',
+			age: 43,
+		},
+		{
+			id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bass',
+			name: 'Jeremy Walker',
+			age: 3,
+		},
+		{
+			id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63qe',
+			name: 'Elisha Macmilan',
+			age: 31,
+		},
+		{
+			id: '58694a0f-3da1-471f-bd96-145571e29d72ew',
+			name: 'Harrison Wells',
+			age: 53,
+		},
 	];
 
 	const renderItem = data => <SingleAdmittedPatientCard patient={data.item} />;

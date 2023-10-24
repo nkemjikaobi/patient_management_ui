@@ -10,16 +10,22 @@ import PatientListing from '../PatientListing/PatientListing';
 export default function PatientsTab() {
 	return (
 		<View style={styles.wrapper}>
-			<TextInput
-				placeholder='Search for a patient'
-				style={styles.input}
-				onChangeText={() => {}}
-				value={''}
-			/>
-			<PatientListing />
-			<TouchableOpacity style={styles.add_patient_btn}>
-				<Text style={{ color: '#fff' }}>Add New Patient</Text>
-			</TouchableOpacity>
+			<View style={{ paddingHorizontal: 20 }}>
+				<TextInput
+					placeholder='Search for a patient'
+					style={styles.input}
+					onChangeText={() => {}}
+					value={''}
+				/>
+			</View>
+			<View style={{ paddingHorizontal: 20 }}>
+				<PatientListing />
+			</View>
+			<View style={styles.buttonContainer}>
+				<TouchableOpacity style={styles.add_patient_btn}>
+					<Text style={{ color: '#fff' }}>Add New Patient</Text>
+				</TouchableOpacity>
+			</View>
 		</View>
 	);
 }
@@ -28,7 +34,7 @@ const styles = StyleSheet.create({
 	wrapper: {
 		backgroundColor: '#fff',
 		flex: 1,
-		paddingHorizontal: 20,
+		position: 'relative',
 	},
 	input: {
 		height: 44,
@@ -37,8 +43,18 @@ const styles = StyleSheet.create({
 		borderRadius: 6,
 		marginBottom: 20,
 	},
+	buttonContainer: {
+		flex: 1,
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		position: 'absolute',
+		bottom: 0,
+		width: '100%',
+	},
 	add_patient_btn: {
-		width: 335,
+		width: '90%',
+		flex: 1,
 		height: 44,
 		borderRadius: 6,
 		paddingHorizontal: 16,
