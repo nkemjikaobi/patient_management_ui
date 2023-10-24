@@ -1,10 +1,12 @@
 import { StyleSheet, View } from 'react-native';
 import PatientStatistics from './components/PatientStatistics/PatientStatistics';
+import CriticalAttentionPatients from './components/CriticalAttentionPatients/CriticalAttentionPatients';
 
 export default function App() {
 	return (
 		<View style={styles.container}>
 			<PatientStatistics />
+			<CriticalAttentionPatients />
 		</View>
 	);
 }
