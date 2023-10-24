@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
+import SingleAdmittedPatientCard from '../SingleAdmittedPatientCard/SingleAdmittedPatientCard';
 
 const AdmittedPatients = () => {
 	return (
@@ -11,6 +12,7 @@ const AdmittedPatients = () => {
 				onChangeText={() => {}}
 				value={''}
 			/>
+			<SingleAdmittedPatientCard />
 		</View>
 	);
 };
@@ -34,5 +36,6 @@ const styles = StyleSheet.create({
 		padding: 12,
 		backgroundColor: '#E8EDF1',
 		borderRadius: 6,
+		marginBottom: 20,
 	},
 });
