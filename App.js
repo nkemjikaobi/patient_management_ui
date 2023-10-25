@@ -7,6 +7,7 @@ import Svg, { Path } from 'react-native-svg';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AddPatients from './components/AddPatient/AddPatient';
 import PatientDetails from './components/PatientDetails/PatientDetails';
+import UpdatePatient from './components/UpdatePatient/UpdatePatient';
 
 export default function App() {
 	const Stack = createNativeStackNavigator();
@@ -22,6 +23,7 @@ export default function App() {
 					component={PatientsTab}
 				/>
 				<Stack.Screen name='Add Patient' component={AddPatients} />
+				<Stack.Screen name='Update Patient' component={UpdatePatient} />
 				<Stack.Screen name='Patient Details' component={PatientDetails} />
 			</Stack.Navigator>
 		);

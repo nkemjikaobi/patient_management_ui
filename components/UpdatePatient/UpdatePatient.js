@@ -13,7 +13,7 @@ import Svg, { Path } from 'react-native-svg';
 import { Dropdown } from 'react-native-element-dropdown';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
-const AddPatient = () => {
+const UpdatePatient = () => {
 	const [gender, setGender] = useState(null);
 	const [genoType, setGenoType] = useState(null);
 	const [bloodGroup, setBloodGroup] = useState(null);
@@ -216,7 +216,7 @@ const AddPatient = () => {
 						onPress={() => props.navigation.navigate('Add Patient')}
 						style={styles.add_patient_btn}
 					>
-						<Text style={{ color: '#fff' }}>Proceed</Text>
+						<Text style={{ color: '#fff' }}>Update Patient Record</Text>
 					</TouchableOpacity>
 				</View>
 			</ScrollView>
@@ -224,7 +224,7 @@ const AddPatient = () => {
 	);
 };
 
-export default AddPatient;
+export default UpdatePatient;
 
 const styles = StyleSheet.create({
 	profile_header: {
@@ -249,26 +249,6 @@ const styles = StyleSheet.create({
 	profile_pic: {
 		width: 56,
 		height: 56,
-	},
-	buttonContainer: {
-		flex: 1,
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-		width: '100%',
-		marginTop: 24,
-	},
-	add_patient_btn: {
-		width: '90%',
-		flex: 1,
-		height: 44,
-		borderRadius: 6,
-		paddingHorizontal: 16,
-		paddingVertical: 14,
-		backgroundColor: '#6E44FF',
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
 	},
 	input: {
 		height: 40,
@@ -307,5 +287,25 @@ const styles = StyleSheet.create({
 	inputSearchStyle: {
 		height: 40,
 		fontSize: 16,
+	},
+	buttonContainer: {
+		flex: 1,
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		width: '100%',
+		marginTop: 24,
+	},
+	add_patient_btn: {
+		width: '90%',
+		flex: 1,
+		height: 44,
+		borderRadius: 6,
+		paddingHorizontal: 16,
+		paddingVertical: 14,
+		backgroundColor: '#6E44FF',
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 });
