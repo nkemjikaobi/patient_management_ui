@@ -19,7 +19,7 @@ export default function PatientsTab(props) {
 				/>
 			</View>
 			<View style={{ paddingHorizontal: 20 }}>
-				<PatientListing />
+				<PatientListing navigationProps={props} />
 			</View>
 			<View style={styles.buttonContainer}>
 				<TouchableOpacity

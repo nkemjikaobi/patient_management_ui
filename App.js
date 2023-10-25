@@ -6,6 +6,7 @@ import PatientsTab from './components/PatientsTab/PatientsTab';
 import Svg, { Path } from 'react-native-svg';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AddPatients from './components/AddPatient/AddPatient';
+import PatientDetails from './components/PatientDetails/PatientDetails';
 
 export default function App() {
 	const Stack = createNativeStackNavigator();
@@ -15,8 +16,13 @@ export default function App() {
 	const PatientsStack = () => {
 		return (
 			<Stack.Navigator>
-				<Stack.Screen name='AllPatients' component={PatientsTab} />
+				<Stack.Screen
+					// options={{ headerShown: false }}
+					name='All Patients'
+					component={PatientsTab}
+				/>
 				<Stack.Screen name='Add Patient' component={AddPatients} />
+				<Stack.Screen name='Patient Details' component={PatientDetails} />
 			</Stack.Navigator>
 		);
 	};

@@ -1,8 +1,15 @@
 import React from 'react';
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import {
+	FlatList,
+	Image,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 import PatientImg from '../../assets/images/patient.png';
 
-const PatientListing = () => {
+const PatientListing = ({ navigationProps }) => {
 	const data = [
 		{
 			id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -61,7 +68,14 @@ const PatientListing = () => {
 	];
 
 	const renderItem = data => (
-		<View style={styles.wrapper}>
+		<TouchableOpacity
+			onPress={() =>
+				navigationProps.navigation.navigate('Patient Details', {
+					patient: data.item,
+				})
+			}
+			style={styles.wrapper}
+		>
 			<View style={styles.patient_bio_wrapper}>
 				<View style={styles.patient_bio}>
 					<Image source={PatientImg} style={styles.image} />
@@ -85,7 +99,7 @@ const PatientListing = () => {
 					{data?.item?.age} years
 				</Text>
 			</View>
-		</View>
+		</TouchableOpacity>
 	);
 
 	return (

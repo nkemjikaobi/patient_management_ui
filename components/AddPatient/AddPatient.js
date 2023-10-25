@@ -16,7 +16,7 @@ const AddPatient = () => {
 	const [gender, setGender] = useState(null);
 	const [genoType, setGenoType] = useState(null);
 	const [bloodGroup, setBloodGroup] = useState(null);
-	const [date, setDate] = useState(new Date());
+	const [date, setDate] = useState('');
 	const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
 	const showDatePicker = () => {
