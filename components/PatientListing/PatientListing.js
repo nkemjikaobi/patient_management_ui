@@ -8,64 +8,20 @@ import {
 	View,
 } from 'react-native';
 import PatientImg from '../../assets/images/patient.png';
+import moment from 'moment';
+import { calculateAge } from '../helpers/utils';
 
-const PatientListing = ({ navigationProps }) => {
-	const data = [
-		{
-			id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-			name: 'Victor Thompson',
-			age: 23,
-			isAdmitted: true,
-		},
-		{
-			id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-			name: 'Jonathan Trudieu',
-			age: 30,
-			isAdmitted: false,
-		},
-		{
-			id: '58694a0f-3da1-471f-bd96-145571e29d72',
-			name: 'Hannah Baker',
-			age: 43,
-			isAdmitted: true,
-		},
-		{
-			id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bas',
-			name: 'Jeremy Walker',
-			age: 3,
-			isAdmitted: false,
-		},
-		{
-			id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63q',
-			name: 'Elisha Macmilan',
-			age: 31,
-			isAdmitted: true,
-		},
-		{
-			id: '58694a0f-3da1-471f-bd96-145571e29d72e',
-			name: 'Harrison Wells',
-			age: 53,
-			isAdmitted: false,
-		},
-		{
-			id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28basm',
-			name: 'Jeremy Walker',
-			age: 3,
-			isAdmitted: false,
-		},
-		{
-			id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63qh',
-			name: 'Elisha Macmilan',
-			age: 31,
-			isAdmitted: true,
-		},
-		{
-			id: '58694a0f-3da1-471f-bd96-145571e29d72eh',
-			name: 'Harrison Wells',
-			age: 53,
-			isAdmitted: false,
-		},
-	];
+const PatientListing = ({ navigationProps, allPatients }) => {
+	// const calculateAge = dateOfBirthStr => {
+	// 	const dateOfBirth = moment(dateOfBirthStr, 'MM/DD/YYYY');
+
+	// 	const currentDate = moment(); // Current date
+	// 	const age = currentDate.diff(dateOfBirth, 'years');
+
+	// 	const formattedAge = age + ' years old';
+
+	// 	return formattedAge;
+	// };
 
 	const renderItem = data => (
 		<TouchableOpacity
@@ -83,7 +39,7 @@ const PatientListing = ({ navigationProps }) => {
 						<Text
 							style={{ color: '#141617', fontSize: 14, fontWeight: 'bold' }}
 						>
-							{data?.item?.name}
+							{data?.item?.first_name} {data?.item?.last_name}
 						</Text>
 						<Text
 							style={[
@@ -96,7 +52,7 @@ const PatientListing = ({ navigationProps }) => {
 					</View>
 				</View>
 				<Text style={{ color: '#141617', fontSize: 13 }}>
-					{data?.item?.age} years
+					({calculateAge(data?.item?.date_of_birth)})
 				</Text>
 			</View>
 		</TouchableOpacity>
@@ -105,9 +61,9 @@ const PatientListing = ({ navigationProps }) => {
 	return (
 		<View>
 			<FlatList
-				data={data}
+				data={allPatients}
 				renderItem={patient => renderItem(patient)}
-				keyExtractor={patient => patient.id}
+				keyExtractor={patient => patient._id}
 			/>
 		</View>
 	);

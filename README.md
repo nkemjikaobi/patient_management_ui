@@ -18,4 +18,6 @@ npx expo start
 
 Then choose the emulator you want, IOS or Android
 
+Backend URL - https://patient-management-system-api.onrender.com
+
 Happy Hacking😂👨🏽‍💻!

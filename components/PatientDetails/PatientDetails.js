@@ -4,7 +4,7 @@ import PatientProfilePic from '../../assets/images/patient-image.png';
 import Svg, { Path } from 'react-native-svg';
 import PatientDetailsVitals from './PatientDetailsVitals';
 import PatientDetailsSections from '../PatientDetailsSections/PatientDetailsSections';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { calculateAge } from '../helpers/utils';
 
 const PatientDetails = ({ route, navigation }) => {
 	return (
@@ -29,7 +29,8 @@ const PatientDetails = ({ route, navigation }) => {
 					<Image style={styles.profile_pic} source={PatientProfilePic} />
 					<View style={styles.change_patient_details_wrapper}>
 						<Text style={{ fontWeight: 'bold', fontSize: 18 }}>
-							{route?.params?.patient?.name}
+							{route?.params?.patient?.first_name}{' '}
+							{route?.params?.patient?.last_name}
 						</Text>
 						<View
 							style={{
@@ -59,12 +60,17 @@ const PatientDetails = ({ route, navigation }) => {
 							</Svg>
 
 							<Text
-								style={{ fontSize: 14, color: '#68696A', marginHorizontal: 4 }}
+								style={{
+									fontSize: 14,
+									color: '#68696A',
+									marginHorizontal: 4,
+									textTransform: 'capitalize',
+								}}
 							>
-								Female
+								{route?.params?.patient?.gender}
 							</Text>
 							<Text style={{ fontSize: 14, color: '#68696A' }}>
-								{route?.params?.patient?.age} years
+								{calculateAge(route?.params?.patient?.date_of_birth)}
 							</Text>
 						</View>
 					</View>

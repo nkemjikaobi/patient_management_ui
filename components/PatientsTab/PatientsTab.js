@@ -1,4 +1,5 @@
 import {
+	ActivityIndicator,
 	StyleSheet,
 	Text,
 	TextInput,
@@ -6,8 +7,32 @@ import {
 	View,
 } from 'react-native';
 import PatientListing from '../PatientListing/PatientListing';
+import { useEffect, useState } from 'react';
 
 export default function PatientsTab(props) {
+	const [allPatients, setAllPatients] = useState();
+	const [loading, setLoading] = useState(true);
+
+	//Method to fetch all patients
+	const fetchPatients = async () => {
+		await fetch('https://patient-management-system-api.onrender.com/patients')
+			.then(response => response.json())
+			.then(json => {
+				setAllPatients(json);
+				setTimeout(() => {
+					setLoading(false);
+				}, 1500);
+			})
+			.catch(error => {
+				setLoading(false);
+			});
+	};
+
+	useEffect(() => {
+		//Fetch patients once the component has mounted
+		fetchPatients();
+	}, []);
+
 	return (
 		<View style={styles.wrapper}>
 			<View style={{ paddingHorizontal: 20 }}>
@@ -19,7 +44,14 @@ export default function PatientsTab(props) {
 				/>
 			</View>
 			<View style={{ paddingHorizontal: 20 }}>
-				<PatientListing navigationProps={props} />
+				{loading ? (
+					<View style={styles.loader}>
+						<ActivityIndicator size='small' color='#0000ff' />
+						<Text style={{ marginTop: 12 }}>Fetching all patients...</Text>
+					</View>
+				) : (
+					<PatientListing allPatients={allPatients} navigationProps={props} />
+				)}
 			</View>
 			<View style={styles.buttonContainer}>
 				<TouchableOpacity
@@ -34,6 +66,12 @@ export default function PatientsTab(props) {
 }
 
 const styles = StyleSheet.create({
+	loader: {
+		justifyContent: 'center',
+		alignItems: 'center',
+		display: 'flex',
+		paddingTop: 100,
+	},
 	wrapper: {
 		backgroundColor: '#fff',
 		flex: 1,
