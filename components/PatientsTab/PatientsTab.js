@@ -10,7 +10,7 @@ import PatientListing from '../PatientListing/PatientListing';
 import { useEffect, useState } from 'react';
 
 export default function PatientsTab(props) {
-	const [allPatients, setAllPatients] = useState();
+	const [allPatients, setAllPatients] = useState([]);
 	const [loading, setLoading] = useState(true);
 
 	//Method to fetch all patients
@@ -44,7 +44,9 @@ export default function PatientsTab(props) {
 				/>
 			</View>
 			<View style={{ paddingHorizontal: 20 }}>
-				{loading ? (
+				{!loading && allPatients?.length === 0 ? (
+					<Text>There are no patients...</Text>
+				) : loading ? (
 					<View style={styles.loader}>
 						<ActivityIndicator size='small' color='#0000ff' />
 						<Text style={{ marginTop: 12 }}>Fetching all patients...</Text>
