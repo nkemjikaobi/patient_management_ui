@@ -97,7 +97,9 @@ const PatientDetails = ({ route, navigation }) => {
 						</Svg>
 
 						<TouchableOpacity>
-							<Text style={{ color: '#EE4266' }}>Delete Patient</Text>
+							<Text style={{ color: '#EE4266', marginLeft: 4 }}>
+								Delete Patient
+							</Text>
 						</TouchableOpacity>
 					</View>
 					<View
@@ -108,14 +110,25 @@ const PatientDetails = ({ route, navigation }) => {
 							marginTop: 8,
 						}}
 					>
-						<TouchableOpacity>
-							<Text style={{ marginRight: 20 }}></Text>
-						</TouchableOpacity>
+						<Svg
+							width='20'
+							height='20'
+							viewBox='0 0 20 20'
+							fill='none'
+							xmlns='http://www.w3.org/2000/svg'
+						>
+							<Path
+								d='M11.7156 7.51667L12.4823 8.28333L4.9323 15.8333H4.16563V15.0667L11.7156 7.51667ZM14.7156 2.5C14.5073 2.5 14.2906 2.58333 14.1323 2.74167L12.6073 4.26667L15.7323 7.39167L17.2573 5.86667C17.5823 5.54167 17.5823 5.01667 17.2573 4.69167L15.3073 2.74167C15.1406 2.575 14.9323 2.5 14.7156 2.5ZM11.7156 5.15833L2.49896 14.375V17.5H5.62396L14.8406 8.28333L11.7156 5.15833Z'
+								fill='#393E41'
+							/>
+						</Svg>
 
 						<TouchableOpacity
 							onPress={() => navigation.navigate('Update Patient')}
 						>
-							<Text style={{ color: '#6E44FF' }}>Edit Patient</Text>
+							<Text style={{ color: '#6E44FF', marginLeft: 4 }}>
+								Edit Patient
+							</Text>
 						</TouchableOpacity>
 					</View>
 				</View>
