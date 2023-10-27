@@ -8,7 +8,7 @@ import Medications from './Medications';
  *
  * Will be completed in later milestones
  */
-const PatientDetailsSections = ({ patient }) => {
+const PatientDetailsSections = ({ patient, navigation }) => {
 	const [selected, setSelected] = useState(0);
 
 	const onSelect = id => {
@@ -19,7 +19,7 @@ const PatientDetailsSections = ({ patient }) => {
 		{
 			id: 0,
 			name: 'Basic Information',
-			component: <BasicInformation patient={patient} />,
+			component: <BasicInformation patient={patient} navigation={navigation} />,
 		},
 		{
 			id: 1,

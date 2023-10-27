@@ -144,7 +144,7 @@ const PatientDetails = ({ route, navigation }) => {
 			<TouchableOpacity style={styles.admit_patient_btn}>
 				<Text style={{ color: '#fff' }}>Admit Patient</Text>
 			</TouchableOpacity>
-			<PatientDetailsSections patient={route?.params?.patient} />
+			<PatientDetailsSections navigation={navigation} patient={route?.params?.patient} />
 		</View>
 	);
 };
