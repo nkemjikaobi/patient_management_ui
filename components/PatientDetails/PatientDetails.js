@@ -35,6 +35,10 @@ const PatientDetails = ({ route, navigation }) => {
 			} else {
 				const addedPatient = await response.json();
 
+				navigation.setParams({
+					patient: { ...route.params.patient, isAdmitted: true },
+				});
+
 				toast.show('Patient admitted', {
 					type: 'success',
 				});
