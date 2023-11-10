@@ -50,6 +50,35 @@ const PatientDetails = ({ route, navigation }) => {
 		}
 	};
 
+	const deletePatient = async () => {
+		try {
+			const response = await fetch(
+				`https://patient-management-system-api.onrender.com/patients/${route.params.patient._id}`,
+				{
+					method: 'DELETE',
+				}
+			);
+
+			if (!response.ok) {
+				toast.show('An error occurred while deleting patient', {
+					type: 'danger',
+				});
+			} else {
+				const addedPatient = await response.json();
+
+				toast.show('Patient deleted', {
+					type: 'success',
+				});
+				navigation.goBack();
+			}
+		} catch (error) {
+			console.error('Error deleting patient:', error);
+			toast.show('An error occurred while deleting patient', {
+				type: 'danger',
+			});
+		}
+	};
+
 	return (
 		<View style={{ padding: 20 }}>
 			<View
@@ -145,7 +174,7 @@ const PatientDetails = ({ route, navigation }) => {
 							/>
 						</Svg>
 
-						<TouchableOpacity>
+						<TouchableOpacity onPress={() => deletePatient()}>
 							<Text style={{ color: '#EE4266', marginLeft: 4 }}>
 								Delete Patient
 							</Text>

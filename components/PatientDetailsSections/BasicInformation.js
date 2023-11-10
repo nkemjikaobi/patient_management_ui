@@ -7,8 +7,41 @@ import {
 	View,
 } from 'react-native';
 import { Path, Svg } from 'react-native-svg';
+import { useToast } from 'react-native-toast-notifications';
 
 const BasicInformation = ({ patient, navigation }) => {
+	const toast = useToast();
+
+	const deletePatient = async () => {
+
+		try {
+			const response = await fetch(
+				`https://patient-management-system-api.onrender.com/patients/${patient._id}`,
+				{
+					method: 'DELETE',
+				}
+			);
+
+			if (!response.ok) {
+				toast.show('An error occurred while deleting patient', {
+					type: 'danger',
+				});
+			} else {
+				const addedPatient = await response.json();
+
+				toast.show('Patient deleted', {
+					type: 'success',
+				});
+				navigation.goBack();
+			}
+		} catch (error) {
+			console.error('Error deleting patient:', error);
+			toast.show('An error occurred while deleting patient', {
+				type: 'danger',
+			});
+		}
+	};
+
 	return (
 		<View style={styles.wrapper}>
 			<View>
@@ -19,6 +52,10 @@ const BasicInformation = ({ patient, navigation }) => {
 				<Text style={styles.title}>Health Data</Text>
 				<Text style={styles.body}>Blood Group - {patient?.blood_group}</Text>
 				<Text style={styles.body}>Genotype - {patient?.genotype}</Text>
+
+				<Text style={styles.title}>Hospital Data</Text>
+				<Text style={styles.body}>Doctor - {patient?.doctor}</Text>
+				<Text style={styles.body}>Department - {patient?.department}</Text>
 
 				{/* <Text style={styles.title}>Allergies</Text>
 				<Text style={styles.body}>N/A</Text> */}
@@ -46,18 +83,20 @@ const BasicInformation = ({ patient, navigation }) => {
 						/>
 					</Svg>
 				</TouchableOpacity>
-				<Svg
-					width='20'
-					height='20'
-					viewBox='0 0 20 20'
-					fill='none'
-					xmlns='http://www.w3.org/2000/svg'
-				>
-					<Path
-						d='M13.3333 7.5V15.8333H6.66663V7.5H13.3333ZM12.0833 2.5H7.91663L7.08329 3.33333H4.16663V5H15.8333V3.33333H12.9166L12.0833 2.5ZM15 5.83333H4.99996V15.8333C4.99996 16.75 5.74996 17.5 6.66663 17.5H13.3333C14.25 17.5 15 16.75 15 15.8333V5.83333Z'
-						fill='#EE4266'
-					/>
-				</Svg>
+				<TouchableOpacity onPress={() => deletePatient()}>
+					<Svg
+						width='20'
+						height='20'
+						viewBox='0 0 20 20'
+						fill='none'
+						xmlns='http://www.w3.org/2000/svg'
+					>
+						<Path
+							d='M13.3333 7.5V15.8333H6.66663V7.5H13.3333ZM12.0833 2.5H7.91663L7.08329 3.33333H4.16663V5H15.8333V3.33333H12.9166L12.0833 2.5ZM15 5.83333H4.99996V15.8333C4.99996 16.75 5.74996 17.5 6.66663 17.5H13.3333C14.25 17.5 15 16.75 15 15.8333V5.83333Z'
+							fill='#EE4266'
+						/>
+					</Svg>
+				</TouchableOpacity>
 			</View>
 		</View>
 	);
