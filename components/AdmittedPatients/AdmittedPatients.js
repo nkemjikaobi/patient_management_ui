@@ -10,7 +10,22 @@ import {
 import SingleAdmittedPatientCard from '../SingleAdmittedPatientCard/SingleAdmittedPatientCard';
 
 const AdmittedPatients = ({ loading, admittedPatients }) => {
+	const [searchTerm, setSearchTerm] = useState('');
+	const [filteredAdmittedPatients, setFilteredAdmittedPatients] = useState([]);
 	const renderItem = data => <SingleAdmittedPatientCard patient={data.item} />;
+
+	useEffect(() => {
+		if (searchTerm) {
+			const filteredPatients = admittedPatients.filter(
+				patient =>
+					patient.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+					patient.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+					patient.condition.toLowerCase().includes(searchTerm.toLowerCase())
+			);
+
+			setFilteredAdmittedPatients(filteredPatients);
+		}
+	}, [searchTerm]);
 
 	return (
 		<View style={styles.wrapper}>
@@ -18,8 +33,8 @@ const AdmittedPatients = ({ loading, admittedPatients }) => {
 			<TextInput
 				placeholder='Search for a patient'
 				style={styles.input}
-				onChangeText={() => {}}
-				value={''}
+				onChangeText={setSearchTerm}
+				value={searchTerm}
 			/>
 
 			{!loading && admittedPatients?.length === 0 ? (
@@ -33,7 +48,7 @@ const AdmittedPatients = ({ loading, admittedPatients }) => {
 				</View>
 			) : (
 				<FlatList
-					data={admittedPatients}
+					data={searchTerm ? filteredAdmittedPatients : admittedPatients}
 					renderItem={patient => renderItem(patient)}
 					keyExtractor={patient => patient._id}
 				/>

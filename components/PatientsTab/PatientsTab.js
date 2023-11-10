@@ -12,6 +12,8 @@ import { useEffect, useState } from 'react';
 export default function PatientsTab(props) {
 	const [allPatients, setAllPatients] = useState([]);
 	const [loading, setLoading] = useState(true);
+	const [searchTerm, setSearchTerm] = useState('');
+	const [filteredPatients, setFilteredPatients] = useState([]);
 
 	//Method to fetch all patients
 	const fetchPatients = async () => {
@@ -33,14 +35,27 @@ export default function PatientsTab(props) {
 		fetchPatients();
 	}, []);
 
+	useEffect(() => {
+		if (searchTerm) {
+			const filteredPatients = allPatients.filter(
+				patient =>
+					patient.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+					patient.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+					patient.condition.toLowerCase().includes(searchTerm.toLowerCase())
+			);
+
+			setFilteredPatients(filteredPatients);
+		}
+	}, [searchTerm]);
+
 	return (
 		<View style={styles.wrapper}>
 			<View style={{ paddingHorizontal: 20 }}>
 				<TextInput
 					placeholder='Search for a patient'
 					style={styles.input}
-					onChangeText={() => {}}
-					value={''}
+					onChangeText={setSearchTerm}
+					value={searchTerm}
 				/>
 			</View>
 			<View style={{ paddingHorizontal: 20 }}>
@@ -52,7 +67,10 @@ export default function PatientsTab(props) {
 						<Text style={{ marginTop: 12 }}>Fetching all patients...</Text>
 					</View>
 				) : (
-					<PatientListing allPatients={allPatients} navigationProps={props} />
+					<PatientListing
+						allPatients={searchTerm ? filteredPatients : allPatients}
+						navigationProps={props}
+					/>
 				)}
 			</View>
 			<View style={styles.buttonContainer}>

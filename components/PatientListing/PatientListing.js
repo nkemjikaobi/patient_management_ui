@@ -12,16 +12,6 @@ import moment from 'moment';
 import { calculateAge } from '../helpers/utils';
 
 const PatientListing = ({ navigationProps, allPatients }) => {
-	// const calculateAge = dateOfBirthStr => {
-	// 	const dateOfBirth = moment(dateOfBirthStr, 'MM/DD/YYYY');
-
-	// 	const currentDate = moment(); // Current date
-	// 	const age = currentDate.diff(dateOfBirth, 'years');
-
-	// 	const formattedAge = age + ' years old';
-
-	// 	return formattedAge;
-	// };
 
 	const renderItem = data => (
 		<TouchableOpacity
