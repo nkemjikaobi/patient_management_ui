@@ -1,8 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
-import Svg, { Path } from 'react-native-svg';
 import PatientImg from '../../assets/images/patient.png';
-import { calculateAge } from '../helpers/utils';
 
 const SingleAdmittedPatientCard = ({ patient }) => {
 	return (
@@ -10,12 +8,19 @@ const SingleAdmittedPatientCard = ({ patient }) => {
 			<View style={styles.patient_bio_wrapper}>
 				<View style={styles.patient_bio}>
 					<Image source={PatientImg} style={styles.image} />
-					<Text style={{ color: '#141617', fontSize: 14, fontWeight: 'bold', textTransform: 'capitalize' }}>
+					<Text
+						style={{
+							color: '#141617',
+							fontSize: 14,
+							fontWeight: 'bold',
+							textTransform: 'capitalize',
+						}}
+					>
 						{patient?.first_name} {patient?.last_name}
 					</Text>
 				</View>
 				<Text style={{ color: '#141617', fontSize: 13 }}>
-					({calculateAge(patient?.date_of_birth)})
+					{patient?.date_of_birth} years old
 				</Text>
 			</View>
 			<View style={styles.patient_readings}>
@@ -34,18 +39,8 @@ const SingleAdmittedPatientCard = ({ patient }) => {
 				</View>
 				<View style={styles.patient_readings_wrapper}>
 					<Text style={{ fontWeight: 'bold' }}>Doctor:</Text>
-					<Text
-						style={
-							patient.condition === 'normal'
-								? { color: 'black', textTransform: 'capitalize' }
-								: { color: 'red', textTransform: 'capitalize' }
-						}
-					>
-						{' '}
-						{patient.doctor}
-					</Text>
+					<Text style={{ textTransform: 'capitalize' }}> {patient.doctor}</Text>
 				</View>
-				
 			</View>
 		</View>
 	);

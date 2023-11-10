@@ -8,10 +8,8 @@ import {
 	View,
 } from 'react-native';
 import PatientImg from '../../assets/images/patient.png';
-import { calculateAge } from '../helpers/utils';
 
 const PatientListing = ({ navigationProps, allPatients }) => {
-
 	const renderItem = data => (
 		<TouchableOpacity
 			onPress={() =>
@@ -41,7 +39,7 @@ const PatientListing = ({ navigationProps, allPatients }) => {
 							</Text>
 							<Text
 								style={[
-									{ fontSize: 12, marginTop: 8 , textTransform: 'capitalize'},
+									{ fontSize: 12, marginTop: 8, textTransform: 'capitalize' },
 									data?.item?.condition === 'critical' && { color: 'red' },
 								]}
 							>
@@ -51,7 +49,7 @@ const PatientListing = ({ navigationProps, allPatients }) => {
 					</View>
 				</View>
 				<Text style={{ color: '#141617', fontSize: 13 }}>
-					({calculateAge(data?.item?.date_of_birth)})
+					{data?.item?.date_of_birth} years old
 				</Text>
 			</View>
 		</TouchableOpacity>

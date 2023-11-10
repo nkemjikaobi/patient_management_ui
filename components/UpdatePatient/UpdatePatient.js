@@ -31,25 +31,8 @@ const UpdatePatient = props => {
 		doctor: props.route.params.patient.doctor || '',
 	});
 
-	const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const toast = useToast();
-
-	const showDatePicker = () => {
-		setDatePickerVisibility(true);
-	};
-
-	const hideDatePicker = () => {
-		setDatePickerVisibility(false);
-	};
-
-	const handleConfirm = date => {
-		setPatientDetails({
-			...patientDetails,
-			date_of_birth: moment(date, 'MM/DD/YYYY'),
-		});
-		hideDatePicker();
-	};
 
 	const genderData = [
 		{ label: 'Male', value: 'male' },
@@ -279,18 +262,14 @@ const UpdatePatient = props => {
 				<View>
 					<View>
 						<Text>Date of Birth*</Text>
-						<TouchableOpacity onPress={showDatePicker}>
-							<TextInput
-								style={styles.input}
-								editable={false}
-								value={patientDetails.date_of_birth}
-							/>
-						</TouchableOpacity>
-						<DateTimePickerModal
-							isVisible={isDatePickerVisible}
-							mode='date'
-							onConfirm={handleConfirm}
-							onCancel={hideDatePicker}
+						<TextInput
+							style={styles.input}
+							placeholder='24'
+							onChangeText={value =>
+								setPatientDetails({ ...patientDetails, date_of_birth: value })
+							}
+							value={patientDetails.date_of_birth}
+							keyboardType='numeric'
 						/>
 					</View>
 				</View>

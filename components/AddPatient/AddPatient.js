@@ -12,7 +12,6 @@ import {
 import PatientProfilePic from '../../assets/images/patient-image.png';
 import Svg, { Path } from 'react-native-svg';
 import { Dropdown } from 'react-native-element-dropdown';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import { useToast } from 'react-native-toast-notifications';
 
@@ -30,25 +29,8 @@ const AddPatient = props => {
 		department: '',
 		doctor: '',
 	});
-	const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const toast = useToast();
-
-	const showDatePicker = () => {
-		setDatePickerVisibility(true);
-	};
-
-	const hideDatePicker = () => {
-		setDatePickerVisibility(false);
-	};
-
-	const handleConfirm = date => {
-		setPatientDetails({
-			...patientDetails,
-			date_of_birth: moment(date, 'MM/DD/YYYY'),
-		});
-		hideDatePicker();
-	};
 
 	const genderData = [
 		{ label: 'Male', value: 'male' },
@@ -280,18 +262,14 @@ const AddPatient = props => {
 				<View>
 					<View>
 						<Text>Date of Birth*</Text>
-						<TouchableOpacity onPress={showDatePicker}>
-							<TextInput
-								style={styles.input}
-								editable={false}
-								value={patientDetails.date_of_birth}
-							/>
-						</TouchableOpacity>
-						<DateTimePickerModal
-							isVisible={isDatePickerVisible}
-							mode='date'
-							onConfirm={handleConfirm}
-							onCancel={hideDatePicker}
+						<TextInput
+							style={styles.input}
+							placeholder='24'
+							onChangeText={value =>
+								setPatientDetails({ ...patientDetails, date_of_birth: value })
+							}
+							value={patientDetails.date_of_birth}
+							keyboardType='numeric'
 						/>
 					</View>
 				</View>

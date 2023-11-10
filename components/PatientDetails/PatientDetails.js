@@ -4,7 +4,6 @@ import PatientProfilePic from '../../assets/images/patient-image.png';
 import Svg, { Path } from 'react-native-svg';
 import PatientDetailsVitals from './PatientDetailsVitals';
 import PatientDetailsSections from '../PatientDetailsSections/PatientDetailsSections';
-import { calculateAge } from '../helpers/utils';
 import { useToast } from 'react-native-toast-notifications';
 
 const PatientDetails = ({ route, navigation }) => {
@@ -148,7 +147,7 @@ const PatientDetails = ({ route, navigation }) => {
 								{route?.params?.patient?.gender}
 							</Text>
 							<Text style={{ fontSize: 14, color: '#68696A' }}>
-								{calculateAge(route?.params?.patient?.date_of_birth)}
+								{route?.params?.patient?.date_of_birth} years old
 							</Text>
 						</View>
 					</View>
@@ -202,9 +201,11 @@ const PatientDetails = ({ route, navigation }) => {
 						</Svg>
 
 						<TouchableOpacity
-							onPress={() => navigation.navigate('Update Patient', {
-								patient: route.params.patient
-							})}
+							onPress={() =>
+								navigation.navigate('Update Patient', {
+									patient: route.params.patient,
+								})
+							}
 						>
 							<Text style={{ color: '#6E44FF', marginLeft: 4 }}>
 								Edit Patient
