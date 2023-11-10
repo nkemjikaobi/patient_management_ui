@@ -91,39 +91,49 @@ const AddPatient = props => {
 	];
 
 	const addPatientHandler = async () => {
-		setLoading(true);
-		try {
-			const response = await fetch(
-				'https://patient-management-system-api.onrender.com/patients',
-				{
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify(patientDetails),
-				}
-			);
+		const isDetailsValid = Object.values(patientDetails).every(
+			value => value !== ''
+		);
 
-			if (!response.ok) {
+		if (isDetailsValid) {
+			setLoading(true);
+			try {
+				const response = await fetch(
+					'https://patient-management-system-api.onrender.com/patients',
+					{
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify(patientDetails),
+					}
+				);
+
+				if (!response.ok) {
+					toast.show('An error occurred while adding patient', {
+						type: 'danger',
+					});
+					setLoading(false);
+				} else {
+					const addedPatient = await response.json();
+
+					toast.show('Patient added', {
+						type: 'success',
+					});
+
+					props.navigation.goBack();
+				}
+			} catch (error) {
+				console.error('Error adding patient:', error);
 				toast.show('An error occurred while adding patient', {
 					type: 'danger',
 				});
 				setLoading(false);
-			} else {
-				const addedPatient = await response.json();
-
-				toast.show('Patient added', {
-					type: 'success',
-				});
-
-						props.navigation.goBack();
 			}
-		} catch (error) {
-			console.error('Error adding patient:', error);
-			toast.show('An error occurred while adding patient', {
+		} else {
+			toast.show('All fields are required', {
 				type: 'danger',
 			});
-			setLoading(false);
 		}
 	};
 

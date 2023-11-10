@@ -2,7 +2,6 @@ import moment from 'moment';
 
 export const calculateAge = dateOfBirthStr => {
 
-	console.log(dateOfBirthStr);
 	const dateOfBirth = moment(dateOfBirthStr, 'MM/DD/YYYY');
 	let formattedAge;
 

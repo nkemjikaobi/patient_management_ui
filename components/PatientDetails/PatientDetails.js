@@ -1,12 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import PatientProfilePic from '../../assets/images/patient-image.png';
 import Svg, { Path } from 'react-native-svg';
 import PatientDetailsVitals from './PatientDetailsVitals';
 import PatientDetailsSections from '../PatientDetailsSections/PatientDetailsSections';
 import { calculateAge } from '../helpers/utils';
+import { useToast } from 'react-native-toast-notifications';
 
 const PatientDetails = ({ route, navigation }) => {
+	const [loading, setLoading] = useState(false);
+	const toast = useToast();
+
+	const admitPatientHandler = async () => {
+		setLoading(true);
+		const payload = {
+			...route.params.patient,
+			isAdmitted: true,
+		};
+
+		try {
+			const response = await fetch(
+				`https://patient-management-system-api.onrender.com/patients/${route.params.patient._id}`,
+				{
+					method: 'PUT',
+					body: JSON.stringify(payload),
+				}
+			);
+
+			if (!response.ok) {
+				console.log(await response.json());
+				toast.show('An error occurred while admitting patient', {
+					type: 'danger',
+				});
+				setLoading(false);
+			} else {
+				const addedPatient = await response.json();
+
+				toast.show('Patient admitted', {
+					type: 'success',
+				});
+				setLoading(false);
+			}
+		} catch (error) {
+			console.error('Error admitting patient:', error);
+			toast.show('An error occurred while admitting patient', {
+				type: 'danger',
+			});
+			setLoading(false);
+		}
+	};
+
 	return (
 		<View style={{ padding: 20 }}>
 			<View
@@ -28,7 +71,13 @@ const PatientDetails = ({ route, navigation }) => {
 				>
 					<Image style={styles.profile_pic} source={PatientProfilePic} />
 					<View style={styles.change_patient_details_wrapper}>
-						<Text style={{ fontWeight: 'bold', fontSize: 18 }}>
+						<Text
+							style={{
+								fontWeight: 'bold',
+								fontSize: 18,
+								textTransform: 'capitalize',
+							}}
+						>
 							{route?.params?.patient?.first_name}{' '}
 							{route?.params?.patient?.last_name}
 						</Text>
@@ -141,10 +190,21 @@ const PatientDetails = ({ route, navigation }) => {
 				</Text>
 			</View>
 			<PatientDetailsVitals />
-			<TouchableOpacity style={styles.admit_patient_btn}>
-				<Text style={{ color: '#fff' }}>Admit Patient</Text>
-			</TouchableOpacity>
-			<PatientDetailsSections navigation={navigation} patient={route?.params?.patient} />
+			{!route.params.patient.isAdmitted && (
+				<TouchableOpacity
+					onPress={() => admitPatientHandler()}
+					style={styles.admit_patient_btn}
+					disabled={loading}
+				>
+					<Text style={{ color: '#fff' }}>
+						{loading ? 'Admitting Patient...' : 'Admit Patient'}
+					</Text>
+				</TouchableOpacity>
+			)}
+			<PatientDetailsSections
+				navigation={navigation}
+				patient={route?.params?.patient}
+			/>
 		</View>
 	);
 };
