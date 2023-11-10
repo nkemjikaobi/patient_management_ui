@@ -92,30 +92,22 @@ const AddPatient = props => {
 				);
 
 				if (!response.ok) {
-					toast.show('An error occurred while adding patient', {
-						type: 'danger',
-					});
+					toast.show('An error occurred while adding patient');
 					setLoading(false);
 				} else {
 					const addedPatient = await response.json();
 
-					toast.show('Patient added', {
-						type: 'success',
-					});
+					toast.show('Patient added');
 
 					props.navigation.goBack();
 				}
 			} catch (error) {
 				console.error('Error adding patient:', error);
-				toast.show('An error occurred while adding patient', {
-					type: 'danger',
-				});
+				toast.show('An error occurred while adding patient');
 				setLoading(false);
 			}
 		} else {
-			toast.show('All fields are required', {
-				type: 'danger',
-			});
+			toast.show('All fields are required');
 		}
 	};
 

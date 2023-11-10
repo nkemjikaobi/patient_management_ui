@@ -92,30 +92,22 @@ const UpdatePatient = props => {
 
 				if (!response.ok) {
 					console.log(await response.json());
-					toast.show('An error occurred while updating patient', {
-						type: 'danger',
-					});
+					toast.show('An error occurred while updating patient');
 					setLoading(false);
 				} else {
 					const addedPatient = await response.json();
 
-					toast.show('Patient updated', {
-						type: 'success',
-					});
+					toast.show('Patient updated');
 
 					props.navigation.goBack();
 				}
 			} catch (error) {
 				console.error('Error updating patient:', error);
-				toast.show('An error occurred while updating patient', {
-					type: 'danger',
-				});
+				toast.show('An error occurred while updating patient');
 				setLoading(false);
 			}
 		} else {
-			toast.show('All fields are required', {
-				type: 'danger',
-			});
+			toast.show('All fields are required');
 		}
 	};
 

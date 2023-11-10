@@ -28,9 +28,7 @@ const PatientDetails = ({ route, navigation }) => {
 
 			if (!response.ok) {
 				console.log(await response.json());
-				toast.show('An error occurred while admitting patient', {
-					type: 'danger',
-				});
+				toast.show('An error occurred while admitting patient');
 				setLoading(false);
 			} else {
 				const addedPatient = await response.json();
@@ -39,16 +37,12 @@ const PatientDetails = ({ route, navigation }) => {
 					patient: { ...route.params.patient, isAdmitted: true },
 				});
 
-				toast.show('Patient admitted', {
-					type: 'success',
-				});
+				toast.show('Patient admitted');
 				setLoading(false);
 			}
 		} catch (error) {
 			console.error('Error admitting patient:', error);
-			toast.show('An error occurred while admitting patient', {
-				type: 'danger',
-			});
+			toast.show('An error occurred while admitting patient');
 			setLoading(false);
 		}
 	};
@@ -63,22 +57,16 @@ const PatientDetails = ({ route, navigation }) => {
 			);
 
 			if (!response.ok) {
-				toast.show('An error occurred while deleting patient', {
-					type: 'danger',
-				});
+				toast.show('An error occurred while deleting patient');
 			} else {
 				const addedPatient = await response.json();
 
-				toast.show('Patient deleted', {
-					type: 'success',
-				});
+				toast.show('Patient deleted');
 				navigation.goBack();
 			}
 		} catch (error) {
 			console.error('Error deleting patient:', error);
-			toast.show('An error occurred while deleting patient', {
-				type: 'danger',
-			});
+			toast.show('An error occurred while deleting patient');
 		}
 	};
 

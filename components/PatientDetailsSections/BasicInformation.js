@@ -22,22 +22,16 @@ const BasicInformation = ({ patient, navigation }) => {
 			);
 
 			if (!response.ok) {
-				toast.show('An error occurred while deleting patient', {
-					type: 'danger',
-				});
+				toast.show('An error occurred while deleting patient');
 			} else {
 				const addedPatient = await response.json();
 
-				toast.show('Patient deleted', {
-					type: 'success',
-				});
+				toast.show('Patient deleted');
 				navigation.goBack();
 			}
 		} catch (error) {
 			console.error('Error deleting patient:', error);
-			toast.show('An error occurred while deleting patient', {
-				type: 'danger',
-			});
+			toast.show('An error occurred while deleting patient');
 		}
 	};
 
