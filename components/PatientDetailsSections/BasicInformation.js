@@ -13,7 +13,6 @@ const BasicInformation = ({ patient, navigation }) => {
 	const toast = useToast();
 
 	const deletePatient = async () => {
-
 		try {
 			const response = await fetch(
 				`https://patient-management-system-api.onrender.com/patients/${patient._id}`,
@@ -68,7 +67,13 @@ const BasicInformation = ({ patient, navigation }) => {
 					justifyContent: 'space-between',
 				}}
 			>
-				<TouchableOpacity onPress={() => navigation.navigate('Update Patient')}>
+				<TouchableOpacity
+					onPress={() =>
+						navigation.navigate('Update Patient', {
+							patient,
+						})
+					}
+				>
 					<Svg
 						width='20'
 						height='20'

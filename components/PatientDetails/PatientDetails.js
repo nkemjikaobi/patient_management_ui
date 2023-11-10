@@ -202,7 +202,9 @@ const PatientDetails = ({ route, navigation }) => {
 						</Svg>
 
 						<TouchableOpacity
-							onPress={() => navigation.navigate('Update Patient')}
+							onPress={() => navigation.navigate('Update Patient', {
+								patient: route.params.patient
+							})}
 						>
 							<Text style={{ color: '#6E44FF', marginLeft: 4 }}>
 								Edit Patient

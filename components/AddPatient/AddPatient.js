@@ -280,19 +280,18 @@ const AddPatient = props => {
 				<View>
 					<View>
 						<Text>Date of Birth*</Text>
+						<TouchableOpacity onPress={showDatePicker}>
+							<TextInput
+								style={styles.input}
+								editable={false}
+								value={patientDetails.date_of_birth}
+							/>
+						</TouchableOpacity>
 						<DateTimePickerModal
 							isVisible={isDatePickerVisible}
 							mode='date'
 							onConfirm={handleConfirm}
 							onCancel={hideDatePicker}
-						/>
-						<TextInput
-							style={styles.input}
-							// placeholder='click to select date'
-							editable={false}
-							onPressIn={showDatePicker}
-							// value={'2023-08-08T18:32:03.000Z'}
-							value={patientDetails.date_of_birth}
 						/>
 					</View>
 				</View>
