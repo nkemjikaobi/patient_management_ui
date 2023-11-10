@@ -8,7 +8,6 @@ import {
 	View,
 } from 'react-native';
 import PatientImg from '../../assets/images/patient.png';
-import moment from 'moment';
 import { calculateAge } from '../helpers/utils';
 
 const PatientListing = ({ navigationProps, allPatients }) => {
@@ -31,14 +30,24 @@ const PatientListing = ({ navigationProps, allPatients }) => {
 						>
 							{data?.item?.first_name} {data?.item?.last_name}
 						</Text>
-						<Text
-							style={[
-								{ fontSize: 12, marginTop: 8 },
-								data?.item?.isAdmitted && { color: '#6E44FF' },
-							]}
-						>
-							{data?.item?.isAdmitted ? 'Admitted' : 'Not Admitted'}
-						</Text>
+						<View style={{ display: 'flex', flexDirection: 'row' }}>
+							<Text
+								style={[
+									{ fontSize: 12, marginTop: 8 },
+									data?.item?.isAdmitted && { color: '#6E44FF' },
+								]}
+							>
+								{data?.item?.isAdmitted ? 'Admitted' : 'Not Admitted'}
+							</Text>
+							<Text
+								style={[
+									{ fontSize: 12, marginTop: 8 , textTransform: 'capitalize'},
+									data?.item?.condition === 'critical' && { color: 'red' },
+								]}
+							>
+								- {data?.item?.condition}
+							</Text>
+						</View>
 					</View>
 				</View>
 				<Text style={{ color: '#141617', fontSize: 13 }}>

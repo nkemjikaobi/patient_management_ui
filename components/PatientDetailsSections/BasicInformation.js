@@ -20,8 +20,8 @@ const BasicInformation = ({ patient, navigation }) => {
 				<Text style={styles.body}>Blood Group - {patient?.blood_group}</Text>
 				<Text style={styles.body}>Genotype - {patient?.genotype}</Text>
 
-				<Text style={styles.title}>Allergies</Text>
-				<Text style={styles.body}>N/A</Text>
+				{/* <Text style={styles.title}>Allergies</Text>
+				<Text style={styles.body}>N/A</Text> */}
 			</View>
 			<View
 				style={{

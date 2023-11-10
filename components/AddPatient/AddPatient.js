@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+	Alert,
 	Image,
 	ScrollView,
 	StyleSheet,
@@ -12,13 +13,26 @@ import PatientProfilePic from '../../assets/images/patient-image.png';
 import Svg, { Path } from 'react-native-svg';
 import { Dropdown } from 'react-native-element-dropdown';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import moment from 'moment';
+import { useToast } from 'react-native-toast-notifications';
 
-const AddPatient = () => {
-	const [gender, setGender] = useState(null);
-	const [genoType, setGenoType] = useState(null);
-	const [bloodGroup, setBloodGroup] = useState(null);
-	const [date, setDate] = useState('');
+const AddPatient = props => {
+	const [patientDetails, setPatientDetails] = useState({
+		first_name: '',
+		last_name: '',
+		gender: '',
+		date_of_birth: '',
+		genotype: '',
+		blood_group: '',
+		email: '',
+		phone_number: '',
+		house_address: '',
+		department: '',
+		doctor: '',
+	});
 	const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const toast = useToast();
 
 	const showDatePicker = () => {
 		setDatePickerVisibility(true);
@@ -29,14 +43,32 @@ const AddPatient = () => {
 	};
 
 	const handleConfirm = date => {
-		console.warn('A date has been picked: ', date);
-		setDate(date);
+		setPatientDetails({
+			...patientDetails,
+			date_of_birth: moment(date, 'MM/DD/YYYY'),
+		});
 		hideDatePicker();
 	};
 
 	const genderData = [
 		{ label: 'Male', value: 'male' },
 		{ label: 'Female', value: 'female' },
+	];
+
+	const departmentData = [
+		{ label: 'Emergency', value: 'Emergency' },
+		{ label: 'Child Care', value: 'Child Care' },
+		{ label: 'Ante Natal', value: 'Ante Natal' },
+		{ label: 'Post Natal', value: 'Post Natal' },
+		{ label: 'Seniors', value: 'Seniors' },
+	];
+
+	const doctorData = [
+		{ label: 'Dr. Rania Abesh', value: 'Dr. Rania Abesh' },
+		{ label: 'Dr. Philip Nzaghi', value: 'Dr. Philip Nzaghi' },
+		{ label: 'Dr. Walter Whyte', value: 'Dr. Walter Whyte' },
+		{ label: 'Dr Jesse Pinkman', value: 'Dr Jesse Pinkman' },
+		{ label: 'FemDr. Connor Mcgregorale', value: 'Dr. Connor Mcgregor' },
 	];
 
 	const genoTypeData = [
@@ -58,8 +90,45 @@ const AddPatient = () => {
 		{ label: 'O-', value: 'O-' },
 	];
 
+	const addPatientHandler = async () => {
+		setLoading(true);
+		try {
+			const response = await fetch(
+				'https://patient-management-system-api.onrender.com/patients',
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(patientDetails),
+				}
+			);
+
+			if (!response.ok) {
+				toast.show('An error occurred while adding patient', {
+					type: 'danger',
+				});
+				setLoading(false);
+			} else {
+				const addedPatient = await response.json();
+
+				toast.show('Patient added', {
+					type: 'success',
+				});
+
+						props.navigation.goBack();
+			}
+		} catch (error) {
+			console.error('Error adding patient:', error);
+			toast.show('An error occurred while adding patient', {
+				type: 'danger',
+			});
+			setLoading(false);
+		}
+	};
+
 	return (
-		<View style={{ paddingTop: 20 }}>
+		<ScrollView style={{ paddingTop: 20 }}>
 			<View style={styles.profile_header}>
 				<Image style={styles.profile_pic} source={PatientProfilePic} />
 				<View style={styles.change_photo}>
@@ -98,10 +167,82 @@ const AddPatient = () => {
 					</Text>
 				</View>
 			</View>
-			<ScrollView style={styles.form_wrapper}>
+			<ScrollView
+				style={styles.form_wrapper}
+				keyboardShouldPersistTaps='handled'
+			>
+				<View
+					style={{
+						display: 'flex',
+						flexDirection: 'row',
+						justifyContent: 'space-between',
+					}}
+				>
+					<View style={{ width: '45%' }}>
+						<Text>First Name*</Text>
+						<TextInput
+							style={styles.input}
+							placeholder='Clement'
+							onChangeText={value =>
+								setPatientDetails({ ...patientDetails, first_name: value })
+							}
+							value={patientDetails.first_name}
+						/>
+					</View>
+					<View style={{ width: '45%' }}>
+						<Text>Last Name*</Text>
+						<TextInput
+							style={styles.input}
+							placeholder='Scott'
+							onChangeText={value =>
+								setPatientDetails({ ...patientDetails, last_name: value })
+							}
+							value={patientDetails.last_name}
+						/>
+					</View>
+				</View>
+				<View
+					style={{
+						display: 'flex',
+						flexDirection: 'row',
+						justifyContent: 'space-between',
+					}}
+				>
+					<View style={{ width: '45%' }}>
+						<Text>Email*</Text>
+						<TextInput
+							style={styles.input}
+							placeholder='clementscott@gmail.com'
+							onChangeText={value =>
+								setPatientDetails({ ...patientDetails, email: value })
+							}
+							value={patientDetails.email}
+						/>
+					</View>
+					<View style={{ width: '45%' }}>
+						<Text>Phone Number*</Text>
+						<TextInput
+							keyboardType='phone-pad'
+							style={styles.input}
+							placeholder='647-987-4758'
+							onChangeText={value =>
+								setPatientDetails({ ...patientDetails, phone_number: value })
+							}
+							value={patientDetails.phone_number}
+						/>
+					</View>
+				</View>
 				<View>
-					<Text>Patient Name*</Text>
-					<TextInput style={styles.input} placeholder='Clement Scott' />
+					<Text>House Address*</Text>
+					<TextInput
+						style={styles.input}
+						placeholder='20, Progress Avenue'
+						multiline
+						onChangeText={value =>
+							setPatientDetails({ ...patientDetails, house_address: value })
+						}
+						value={patientDetails.house_address}
+					/>
 				</View>
 				<View style={{ marginBottom: 24 }}>
 					<Text style={{ marginBottom: 8 }}>Gender*</Text>
@@ -119,28 +260,31 @@ const AddPatient = () => {
 							valueField='value'
 							placeholder='Select gender'
 							searchPlaceholder='Search...'
-							value={gender}
+							value={patientDetails.gender}
 							onChange={item => {
-								setGender(item.value);
+								setPatientDetails({ ...patientDetails, gender: item.value });
 							}}
 						/>
 					</View>
 				</View>
 				<View>
-					<Text>Date of Birth*</Text>
-					<DateTimePickerModal
-						isVisible={isDatePickerVisible}
-						mode='date'
-						onConfirm={handleConfirm}
-						onCancel={hideDatePicker}
-					/>
-					<TextInput
-						style={styles.input}
-						placeholder='24 May 2008'
-						editable={false}
-						value={date}
-						onPressIn={showDatePicker}
-					/>
+					<View>
+						<Text>Date of Birth*</Text>
+						<DateTimePickerModal
+							isVisible={isDatePickerVisible}
+							mode='date'
+							onConfirm={handleConfirm}
+							onCancel={hideDatePicker}
+						/>
+						<TextInput
+							style={styles.input}
+							// placeholder='click to select date'
+							editable={false}
+							onPressIn={showDatePicker}
+							// value={'2023-08-08T18:32:03.000Z'}
+							value={patientDetails.date_of_birth}
+						/>
+					</View>
 				</View>
 				<View
 					style={{
@@ -165,9 +309,12 @@ const AddPatient = () => {
 								valueField='value'
 								placeholder='Select genotype'
 								searchPlaceholder='Search...'
-								value={genoType}
+								value={patientDetails.genotype}
 								onChange={item => {
-									setGenoType(item.value);
+									setPatientDetails({
+										...patientDetails,
+										genotype: item.value,
+									});
 								}}
 							/>
 						</View>
@@ -188,39 +335,95 @@ const AddPatient = () => {
 								valueField='value'
 								placeholder='Select blood group'
 								searchPlaceholder='Search...'
-								value={bloodGroup}
+								value={patientDetails.blood_group}
 								onChange={item => {
-									setBloodGroup(item.value);
+									setPatientDetails({
+										...patientDetails,
+										blood_group: item.value,
+									});
 								}}
 							/>
 						</View>
 					</View>
 				</View>
-				<View>
-					<Text>Phone Number*</Text>
-					<TextInput
-						keyboardType='phone-pad'
-						style={styles.input}
-						placeholder='647-987-4758'
-					/>
+				<View
+					style={{
+						display: 'flex',
+						flexDirection: 'row',
+						justifyContent: 'space-between',
+					}}
+				>
+					<View style={{ marginBottom: 24, width: '45%' }}>
+						<Text style={{ marginBottom: 8 }}>Department*</Text>
+						<View style={styles.container}>
+							<Dropdown
+								style={[styles.dropdown]}
+								placeholderStyle={styles.placeholderStyle}
+								selectedTextStyle={styles.selectedTextStyle}
+								inputSearchStyle={styles.inputSearchStyle}
+								iconStyle={styles.iconStyle}
+								data={departmentData}
+								search
+								maxHeight={300}
+								labelField='label'
+								valueField='value'
+								placeholder='Select department'
+								searchPlaceholder='Search...'
+								value={patientDetails.department}
+								onChange={item => {
+									setPatientDetails({
+										...patientDetails,
+										department: item.value,
+									});
+								}}
+							/>
+						</View>
+					</View>
+					<View style={{ marginBottom: 24, width: '45%' }}>
+						<Text style={{ marginBottom: 8 }}>Doctor*</Text>
+						<View style={styles.container}>
+							<Dropdown
+								style={[styles.dropdown]}
+								placeholderStyle={styles.placeholderStyle}
+								selectedTextStyle={styles.selectedTextStyle}
+								inputSearchStyle={styles.inputSearchStyle}
+								iconStyle={styles.iconStyle}
+								data={doctorData}
+								search
+								maxHeight={300}
+								labelField='label'
+								valueField='value'
+								placeholder='Select doctor'
+								searchPlaceholder='Search...'
+								value={patientDetails.doctor}
+								onChange={item => {
+									setPatientDetails({ ...patientDetails, doctor: item.value });
+								}}
+							/>
+						</View>
+					</View>
 				</View>
-				<View>
+
+				<View style={styles.buttonContainer}>
+					<TouchableOpacity
+						onPress={() => addPatientHandler()}
+						style={styles.add_patient_btn}
+						disabled={loading}
+					>
+						<Text style={{ color: '#fff' }}>
+							{loading ? 'Adding Patient...' : 'Proceed'}
+						</Text>
+					</TouchableOpacity>
+				</View>
+				{/* <View>
 					<Text>Allergies*</Text>
 					<TextInput style={styles.input} placeholder='Beef, Sulphur,...' />
 					<Text style={{ marginTop: -16, fontSize: 14 }}>
 						Separate allergies with a comma (,)
 					</Text>
-				</View>
-				<View style={styles.buttonContainer}>
-					<TouchableOpacity
-						onPress={() => props.navigation.navigate('Add Patient')}
-						style={styles.add_patient_btn}
-					>
-						<Text style={{ color: '#fff' }}>Proceed</Text>
-					</TouchableOpacity>
-				</View>
+				</View> */}
 			</ScrollView>
-		</View>
+		</ScrollView>
 	);
 };
 
@@ -256,7 +459,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		width: '100%',
-		marginTop: 24,
+		paddingBottom: 24,
 	},
 	add_patient_btn: {
 		width: '90%',

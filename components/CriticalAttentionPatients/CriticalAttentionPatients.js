@@ -26,7 +26,7 @@ const CriticalAttentionPatients = ({ loading, criticalPatients }) => {
 				) : loading ? (
 					<View style={styles.loader}>
 						<ActivityIndicator size='small' color='#0000ff' />
-						<Text style={{ marginTop: 12 }}>
+						<Text style={{ marginTop: 12, textAlign: 'center' }}>
 							Fetching all patients in critical condition...
 						</Text>
 					</View>
