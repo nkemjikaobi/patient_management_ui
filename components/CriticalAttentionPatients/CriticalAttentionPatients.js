@@ -1,15 +1,42 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+	ActivityIndicator,
+	FlatList,
+	StyleSheet,
+	Text,
+	View,
+} from 'react-native';
+import SingleAdmittedPatientCard from '../SingleAdmittedPatientCard/SingleAdmittedPatientCard';
 
-const CriticalAttentionPatients = () => {
+const CriticalAttentionPatients = ({ loading, criticalPatients }) => {
+	const renderItem = data => <SingleAdmittedPatientCard patient={data.item} />;
+
 	return (
 		<View style={styles.wrapper}>
-			<Text style={styles.title}>Requires Attention</Text>
+			<Text style={styles.title}>Requires Attention (Critical)</Text>
 			<View style={styles.body_wrapper}>
-				<Text style={styles.kudos}>Kudos!!</Text>
-				<Text style={styles.message}>
-					No Patient Require Urgent attention at the moment
-				</Text>
+				{!loading && criticalPatients?.length === 0 ? (
+					<>
+						<Text style={styles.kudos}>Kudos!!</Text>
+
+						<Text style={styles.message}>
+							No Patient Require Urgent attention at the moment
+						</Text>
+					</>
+				) : loading ? (
+					<View style={styles.loader}>
+						<ActivityIndicator size='small' color='#0000ff' />
+						<Text style={{ marginTop: 12 }}>
+							Fetching all patients in critical condition...
+						</Text>
+					</View>
+				) : (
+					<FlatList
+						data={criticalPatients}
+						renderItem={patient => renderItem(patient)}
+						keyExtractor={patient => patient._id}
+					/>
+				)}
 			</View>
 		</View>
 	);
@@ -27,15 +54,11 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		marginBottom: 24,
 	},
-	body_wrapper: {
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
 	kudos: {
 		color: '#6E44FF',
 		fontSize: 14,
 		fontWeight: 'bold',
+		textAlign: 'center'
 	},
 	message: {
 		fontSize: 14,

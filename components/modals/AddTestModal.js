@@ -50,7 +50,7 @@ const AddTestModal = ({ modalVisible, setModalVisible }) => {
 					</View>
 					<View>
 						<Text>Notes*</Text>
-						<TextInput style={styles.input} placeholder='Nites' />
+						<TextInput style={styles.input} placeholder='Notes' />
 					</View>
 					<View style={styles.buttonContainer}>
 						<TouchableOpacity

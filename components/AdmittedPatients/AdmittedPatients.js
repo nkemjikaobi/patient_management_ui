@@ -1,61 +1,15 @@
-import React from 'react';
-import { FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+	ActivityIndicator,
+	FlatList,
+	StyleSheet,
+	Text,
+	TextInput,
+	View,
+} from 'react-native';
 import SingleAdmittedPatientCard from '../SingleAdmittedPatientCard/SingleAdmittedPatientCard';
 
-const AdmittedPatients = () => {
-	const data = [
-		{
-			id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-			name: 'Victor Thompson',
-			age: 23,
-		},
-		{
-			id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-			name: 'Jonathan Trudieu',
-			age: 30,
-		},
-		{
-			id: '58694a0f-3da1-471f-bd96-145571e29d72',
-			name: 'Hannah Baker',
-			age: 43,
-		},
-		{
-			id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bas',
-			name: 'Jeremy Walker',
-			age: 3,
-		},
-		{
-			id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63q',
-			name: 'Elisha Macmilan',
-			age: 31,
-		},
-		{
-			id: '58694a0f-3da1-471f-bd96-145571e29d72e',
-			name: 'Harrison Wells',
-			age: 53,
-		},
-		{
-			id: '58694a0f-3da1-471f-bd96-145571e29d72d',
-			name: 'Hannah Baker',
-			age: 43,
-		},
-		{
-			id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bass',
-			name: 'Jeremy Walker',
-			age: 3,
-		},
-		{
-			id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63qe',
-			name: 'Elisha Macmilan',
-			age: 31,
-		},
-		{
-			id: '58694a0f-3da1-471f-bd96-145571e29d72ew',
-			name: 'Harrison Wells',
-			age: 53,
-		},
-	];
-
+const AdmittedPatients = ({ loading, admittedPatients }) => {
 	const renderItem = data => <SingleAdmittedPatientCard patient={data.item} />;
 
 	return (
@@ -67,11 +21,23 @@ const AdmittedPatients = () => {
 				onChangeText={() => {}}
 				value={''}
 			/>
-			<FlatList
-				data={data}
-				renderItem={patient => renderItem(patient)}
-				keyExtractor={patient => patient.id}
-			/>
+
+			{!loading && admittedPatients?.length === 0 ? (
+				<Text>There are no admitted patients...</Text>
+			) : loading ? (
+				<View style={styles.loader}>
+					<ActivityIndicator size='small' color='#0000ff' />
+					<Text style={{ marginTop: 12 }}>
+						Fetching all admitted patients...
+					</Text>
+				</View>
+			) : (
+				<FlatList
+					data={admittedPatients}
+					renderItem={patient => renderItem(patient)}
+					keyExtractor={patient => patient._id}
+				/>
+			)}
 		</View>
 	);
 };

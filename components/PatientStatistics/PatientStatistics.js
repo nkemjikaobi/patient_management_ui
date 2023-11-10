@@ -1,16 +1,20 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-const PatientStatistics = () => {
+const PatientStatistics = ({ allPatients, criticalPatients }) => {
 	return (
 		<View style={styles.card_wrapper}>
 			<View style={styles.card}>
 				<Text style={styles.card_title}>Admitted Patients</Text>
-				<Text style={styles.card_value}>23 Patients</Text>
+				<Text style={styles.card_value}>
+					{allPatients.length || 0} Patients
+				</Text>
 			</View>
 			<View style={styles.card}>
-				<Text style={styles.card_title}>High Priority Patients</Text>
-				<Text style={styles.card_value}>0 Patients</Text>
+				<Text style={styles.card_title}>Critical Patients</Text>
+				<Text style={styles.card_value}>
+					{criticalPatients.length || 0} Patients
+				</Text>
 			</View>
 		</View>
 	);

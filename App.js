@@ -18,7 +18,6 @@ export default function App() {
 		return (
 			<Stack.Navigator>
 				<Stack.Screen
-					// options={{ headerShown: false }}
 					name='All Patients'
 					component={PatientsTab}
 				/>
