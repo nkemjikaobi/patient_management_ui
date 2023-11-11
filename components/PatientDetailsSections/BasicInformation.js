@@ -10,7 +10,6 @@ import Toast from 'react-native-root-toast';
 import { Path, Svg } from 'react-native-svg';
 
 const BasicInformation = ({ patient, navigation }) => {
-	const toast = useToast();
 
 	const deletePatient = async () => {
 		try {
