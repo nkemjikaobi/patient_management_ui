@@ -7,7 +7,8 @@ import {
 	View,
 } from 'react-native';
 import PatientListing from '../PatientListing/PatientListing';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function PatientsTab(props) {
 	const [allPatients, setAllPatients] = useState([]);
@@ -30,10 +31,13 @@ export default function PatientsTab(props) {
 			});
 	};
 
-	useEffect(() => {
-		//Fetch patients once the component has mounted
-		fetchPatients();
-	}, []);
+	// Use useFocusEffect to run code when the screen is focused
+	useFocusEffect(
+		useCallback(() => {
+			// Fetch patients or trigger any action you want when the screen is focused
+			fetchPatients();
+		}, [])
+	);
 
 	useEffect(() => {
 		if (searchTerm) {

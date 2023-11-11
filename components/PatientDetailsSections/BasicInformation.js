@@ -6,8 +6,8 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
+import Toast from 'react-native-root-toast';
 import { Path, Svg } from 'react-native-svg';
-import { useToast } from 'react-native-toast-notifications';
 
 const BasicInformation = ({ patient, navigation }) => {
 	const toast = useToast();
@@ -22,16 +22,22 @@ const BasicInformation = ({ patient, navigation }) => {
 			);
 
 			if (!response.ok) {
-				toast.show('An error occurred while deleting patient');
+				Toast.show('An error occurred while deleting patient', {
+					duration: Toast.durations.LONG,
+				});
 			} else {
 				const addedPatient = await response.json();
 
-				toast.show('Patient deleted');
+				Toast.show('Patient deleted', {
+					duration: Toast.durations.LONG,
+				});
 				navigation.goBack();
 			}
 		} catch (error) {
 			console.error('Error deleting patient:', error);
-			toast.show('An error occurred while deleting patient');
+			Toast.show('An error occurred while deleting patient', {
+				duration: Toast.durations.LONG,
+			});
 		}
 	};
 

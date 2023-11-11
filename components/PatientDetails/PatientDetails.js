@@ -4,11 +4,10 @@ import PatientProfilePic from '../../assets/images/patient-image.png';
 import Svg, { Path } from 'react-native-svg';
 import PatientDetailsVitals from './PatientDetailsVitals';
 import PatientDetailsSections from '../PatientDetailsSections/PatientDetailsSections';
-import { useToast } from 'react-native-toast-notifications';
+import Toast from 'react-native-root-toast';
 
 const PatientDetails = ({ route, navigation }) => {
 	const [loading, setLoading] = useState(false);
-	const toast = useToast();
 
 	const admitPatientHandler = async () => {
 		setLoading(true);
@@ -28,7 +27,9 @@ const PatientDetails = ({ route, navigation }) => {
 
 			if (!response.ok) {
 				console.log(await response.json());
-				toast.show('An error occurred while admitting patient');
+				Toast.show('An error occurred while admitting patient', {
+					duration: Toast.durations.LONG,
+				});
 				setLoading(false);
 			} else {
 				const addedPatient = await response.json();
@@ -37,12 +38,16 @@ const PatientDetails = ({ route, navigation }) => {
 					patient: { ...route.params.patient, isAdmitted: true },
 				});
 
-				toast.show('Patient admitted');
+				Toast.show('Patient admitted', {
+					duration: Toast.durations.LONG,
+				});
 				setLoading(false);
 			}
 		} catch (error) {
 			console.error('Error admitting patient:', error);
-			toast.show('An error occurred while admitting patient');
+			Toast.show('An error occurred while admitting patient', {
+				duration: Toast.durations.LONG,
+			});
 			setLoading(false);
 		}
 	};
@@ -57,16 +62,22 @@ const PatientDetails = ({ route, navigation }) => {
 			);
 
 			if (!response.ok) {
-				toast.show('An error occurred while deleting patient');
+				Toast.show('An error occurred while deleting patient', {
+					duration: Toast.durations.LONG,
+				});
 			} else {
 				const addedPatient = await response.json();
 
-				toast.show('Patient deleted');
+				Toast.show('Patient deleted', {
+					duration: Toast.durations.LONG,
+				});
 				navigation.goBack();
 			}
 		} catch (error) {
 			console.error('Error deleting patient:', error);
-			toast.show('An error occurred while deleting patient');
+			Toast.show('An error occurred while deleting patient', {
+				duration: Toast.durations.LONG,
+			});
 		}
 	};
 

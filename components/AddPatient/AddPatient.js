@@ -13,7 +13,7 @@ import PatientProfilePic from '../../assets/images/patient-image.png';
 import Svg, { Path } from 'react-native-svg';
 import { Dropdown } from 'react-native-element-dropdown';
 import moment from 'moment';
-import { useToast } from 'react-native-toast-notifications';
+import Toast from 'react-native-root-toast';
 
 const AddPatient = props => {
 	const [patientDetails, setPatientDetails] = useState({
@@ -30,7 +30,6 @@ const AddPatient = props => {
 		doctor: '',
 	});
 	const [loading, setLoading] = useState(false);
-	const toast = useToast();
 
 	const genderData = [
 		{ label: 'Male', value: 'male' },
@@ -92,22 +91,30 @@ const AddPatient = props => {
 				);
 
 				if (!response.ok) {
-					toast.show('An error occurred while adding patient');
+					Toast.show('An error occurred while adding patient.', {
+						duration: Toast.durations.LONG,
+					});
 					setLoading(false);
 				} else {
 					const addedPatient = await response.json();
 
-					toast.show('Patient added');
+					Toast.show('Patient added.', {
+						duration: Toast.durations.LONG,
+					});
 
 					props.navigation.goBack();
 				}
 			} catch (error) {
 				console.error('Error adding patient:', error);
-				toast.show('An error occurred while adding patient');
+				Toast.show('An error occurred while adding patient', {
+					duration: Toast.durations.LONG,
+				});
 				setLoading(false);
 			}
 		} else {
-			toast.show('All fields are required');
+			Toast.show('All fields are required.', {
+				duration: Toast.durations.LONG,
+			});
 		}
 	};
 

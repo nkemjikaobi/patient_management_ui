@@ -14,7 +14,7 @@ import Svg, { Path } from 'react-native-svg';
 import { Dropdown } from 'react-native-element-dropdown';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
-import { useToast } from 'react-native-toast-notifications';
+import Toast from 'react-native-root-toast';
 
 const UpdatePatient = props => {
 	const [patientDetails, setPatientDetails] = useState({
@@ -32,7 +32,6 @@ const UpdatePatient = props => {
 	});
 
 	const [loading, setLoading] = useState(false);
-	const toast = useToast();
 
 	const genderData = [
 		{ label: 'Male', value: 'male' },
@@ -92,22 +91,30 @@ const UpdatePatient = props => {
 
 				if (!response.ok) {
 					console.log(await response.json());
-					toast.show('An error occurred while updating patient');
+					Toast.show('An error occurred while updating patient', {
+						duration: Toast.durations.LONG,
+					});
 					setLoading(false);
 				} else {
 					const addedPatient = await response.json();
 
-					toast.show('Patient updated');
+					Toast.show('Patient updated', {
+						duration: Toast.durations.LONG,
+					});
 
 					props.navigation.goBack();
 				}
 			} catch (error) {
 				console.error('Error updating patient:', error);
-				toast.show('An error occurred while updating patient');
+				Toast.show('An error occurred while updating patient', {
+					duration: Toast.durations.LONG,
+				});
 				setLoading(false);
 			}
 		} else {
-			toast.show('All fields are required');
+			Toast.show('All fields are required', {
+				duration: Toast.durations.LONG,
+			});
 		}
 	};
 

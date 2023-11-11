@@ -8,7 +8,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AddPatients from './components/AddPatient/AddPatient';
 import PatientDetails from './components/PatientDetails/PatientDetails';
 import UpdatePatient from './components/UpdatePatient/UpdatePatient';
-import { ToastProvider } from 'react-native-toast-notifications';
+import { RootSiblingParent } from 'react-native-root-siblings';
+
 
 export default function App() {
 	const Stack = createNativeStackNavigator();
@@ -27,7 +28,7 @@ export default function App() {
 	};
 
 	return (
-		<ToastProvider>
+		<RootSiblingParent>
 			<View style={styles.container}>
 				<NavigationContainer>
 					<Tab.Navigator
@@ -112,7 +113,7 @@ export default function App() {
 					</Tab.Navigator>
 				</NavigationContainer>
 			</View>
-		</ToastProvider>
+		</RootSiblingParent>
 	);
 }
 
