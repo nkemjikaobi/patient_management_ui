@@ -2,7 +2,8 @@ import { StyleSheet, View } from 'react-native';
 import PatientStatistics from '../PatientStatistics/PatientStatistics';
 import CriticalAttentionPatients from '../CriticalAttentionPatients/CriticalAttentionPatients';
 import AdmittedPatients from '../AdmittedPatients/AdmittedPatients';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function DashboardTab() {
 	const [allPatients, setAllPatients] = useState([]);
@@ -33,10 +34,13 @@ export default function DashboardTab() {
 			});
 	};
 
-	useEffect(() => {
-		//Fetch patients once the component has mounted
-		fetchPatients();
-	}, []);
+	// Use useFocusEffect to run code when the screen is focused
+	useFocusEffect(
+		useCallback(() => {
+			// Fetch patients or trigger any action you want when the screen is focused
+			fetchPatients();
+		}, [])
+	);
 
 	return (
 		<View style={{ paddingTop: 20 }}>
