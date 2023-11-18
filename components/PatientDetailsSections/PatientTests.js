@@ -54,8 +54,8 @@ const PatientTests = ({ patient }) => {
 	const renderItem = data => (
 		<View style={styles.wrapper}>
 			<View>
-				<Text style={styles.title}>Full Body Scan</Text>
-				<Text style={styles.body}>22 August 2023 12:30am</Text>
+				<Text style={styles.title}>{data?.item?.name}</Text>
+				<Text style={styles.body}>{data?.item?.test_date}</Text>
 			</View>
 			<Svg
 				width='20'
@@ -86,6 +86,8 @@ const PatientTests = ({ patient }) => {
 				<AddTestModal
 					modalVisible={modalVisible}
 					setModalVisible={setModalVisible}
+					patient={patient}
+					manualRefetch={manualRefetch}
 				/>
 			</Modal>
 			<View style={{ position: 'relative' }}>

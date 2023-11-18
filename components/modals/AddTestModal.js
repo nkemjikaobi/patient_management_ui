@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-	Pressable,
 	ScrollView,
 	StyleSheet,
 	Text,
@@ -9,8 +8,71 @@ import {
 	View,
 } from 'react-native';
 import { Path, Svg } from 'react-native-svg';
+import Toast from 'react-native-root-toast';
 
-const AddTestModal = ({ modalVisible, setModalVisible }) => {
+const AddTestModal = ({
+	modalVisible,
+	setModalVisible,
+	patient,
+	manualRefetch,
+}) => {
+	const [testDetails, setTestDetails] = useState({
+		name: '',
+		value: '',
+		test_date: '',
+		notes: '',
+	});
+	const [loading, setLoading] = useState(false);
+
+	const addTestHandler = async () => {
+		const isDetailsValid = Object.entries(testDetails).every(
+			([key, value]) => key === 'notes' || value !== ''
+		);
+
+		if (isDetailsValid) {
+			setLoading(true);
+			try {
+				const response = await fetch(
+					`https://patient-management-system-api.onrender.com/patients/${patient?._id}/tests`,
+					{
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify(testDetails),
+					}
+				);
+
+				if (!response.ok) {
+					Toast.show('An error occurred while adding test.', {
+						duration: Toast.durations.LONG,
+					});
+					setLoading(false);
+				} else {
+					const addedPatient = await response.json();
+
+					Toast.show('Test added.', {
+						duration: Toast.durations.LONG,
+					});
+
+					manualRefetch();
+
+					setModalVisible(false);
+				}
+			} catch (error) {
+				console.error('Error adding test:', error);
+				Toast.show('An error occurred while adding test', {
+					duration: Toast.durations.LONG,
+				});
+				setLoading(false);
+			}
+		} else {
+			Toast.show('All fields besides notes are required.', {
+				duration: Toast.durations.LONG,
+			});
+		}
+	};
+
 	return (
 		<View style={styles.centeredView}>
 			<View style={styles.modalView}>
@@ -42,26 +104,56 @@ const AddTestModal = ({ modalVisible, setModalVisible }) => {
 				<ScrollView style={styles.form_wrapper}>
 					<View>
 						<Text>Test Name*</Text>
-						<TextInput style={styles.input} placeholder='Blood Pressure' />
+						<TextInput
+							onChangeText={value =>
+								setTestDetails({ ...testDetails, name: value })
+							}
+							value={testDetails.name}
+							style={styles.input}
+							placeholder='Blood Pressure'
+						/>
 					</View>
 					<View>
 						<Text>Value*</Text>
-						<TextInput style={styles.input} placeholder='Value' />
+						<TextInput
+							onChangeText={value => setTestDetails({ ...testDetails, value })}
+							value={testDetails.value}
+							style={styles.input}
+							placeholder='7'
+						/>
 					</View>
 					<View>
 						<Text>Test Date*</Text>
-						<TextInput style={styles.input} placeholder='Test Date' />
+						<TextInput
+							onChangeText={value =>
+								setTestDetails({ ...testDetails, test_date: value })
+							}
+							value={testDetails.test_date}
+							style={styles.input}
+							placeholder='DD-MM-YYYY'
+						/>
 					</View>
 					<View>
 						<Text>Notes*</Text>
-						<TextInput style={styles.input} placeholder='Notes' />
+						<TextInput
+							onChangeText={value =>
+								setTestDetails({ ...testDetails, notes: value })
+							}
+							value={testDetails.notes}
+							style={styles.input}
+							placeholder='Notes'
+						/>
 					</View>
 					<View style={styles.buttonContainer}>
 						<TouchableOpacity
-							onPress={() => props.navigation.navigate('Add Patient')}
+							onPress={() => addTestHandler()}
 							style={styles.add_patient_btn}
+							disabled={loading}
 						>
-							<Text style={{ color: '#fff' }}>Add Test</Text>
+							<Text style={{ color: '#fff' }}>
+								{' '}
+								{loading ? 'Adding Test...' : 'Add Test'}
+							</Text>
 						</TouchableOpacity>
 					</View>
 				</ScrollView>
