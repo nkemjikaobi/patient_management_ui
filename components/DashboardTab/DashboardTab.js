@@ -2,7 +2,7 @@ import { StyleSheet, View } from 'react-native';
 import PatientStatistics from '../PatientStatistics/PatientStatistics';
 import CriticalAttentionPatients from '../CriticalAttentionPatients/CriticalAttentionPatients';
 import AdmittedPatients from '../AdmittedPatients/AdmittedPatients';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 
 export default function DashboardTab() {
@@ -37,7 +37,7 @@ export default function DashboardTab() {
 	// Use useFocusEffect to run code when the screen is focused
 	useFocusEffect(
 		useCallback(() => {
-			// Fetch patients or trigger any action you want when the screen is focused
+			// Fetch patients you want when the screen is focused
 			fetchPatients();
 		}, [])
 	);

@@ -1,67 +1,97 @@
-import React from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useCallback, useState } from 'react';
 import {
-	ScrollView,
+	ActivityIndicator,
+	Modal,
 	StyleSheet,
 	Text,
 	TouchableOpacity,
 	View,
 } from 'react-native';
 import { Path, Svg } from 'react-native-svg';
+import AddMedicationModal from '../modals/AddMedicationModal';
 
-const Medications = () => {
+const Medications = ({ patient }) => {
+	const [modalVisible, setModalVisible] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const [allMedications, setAllMedications] = useState([]);
+
+	//Method to fetch patient medications
+	const fetchPatientMedications = async id => {
+		setLoading(true);
+		await fetch(
+			`https://patient-management-system-api.onrender.com/patients/${id}/medications`
+		)
+			.then(response => response.json())
+			.then(json => {
+				setAllMedications(json);
+				setTimeout(() => {
+					setLoading(false);
+				}, 1500);
+			})
+			.catch(error => {
+				setLoading(false);
+			});
+	};
+
+	const manualRefetch = () => {
+		fetchPatientMedications(patient?._id);
+	};
+
+	useFocusEffect(
+		useCallback(() => {
+			// Check if patient._id exists
+			if (patient?._id) {
+				// Fetch patient medications
+				fetchPatientMedications(patient?._id);
+			}
+		}, [patient?._id])
+	);
+
+	const renderItem = data => (
+		<View style={styles.wrapper}>
+			<View>
+				<Text style={styles.title}>Malaria Medications</Text>
+				<Text style={styles.body}>Prescribed by Dr Franklin Nwoke</Text>
+			</View>
+			<Text style={styles.body}>23 August 2023</Text>
+		</View>
+	);
+
 	return (
 		<View>
-			<ScrollView style={{ position: 'relative' }}>
-				<View style={styles.wrapper}>
-					<View>
-						<Text style={styles.title}>Malaria Medications</Text>
-						<Text style={styles.body}>Prescribed by Dr Franklin Nwoke</Text>
+			<Modal
+				animationType='fade'
+				transparent={true}
+				visible={modalVisible}
+				onRequestClose={() => {
+					setModalVisible(!modalVisible);
+				}}
+			>
+				<AddMedicationModal
+					modalVisible={modalVisible}
+					setModalVisible={setModalVisible}
+				/>
+			</Modal>
+			<View style={{ position: 'relative' }}>
+				{!loading && allMedications?.length === 0 ? (
+					<Text>There are no medications...</Text>
+				) : loading ? (
+					<View style={styles.loader}>
+						<ActivityIndicator size='small' color='#0000ff' />
+						<Text style={{ marginTop: 12 }}>Fetching all medications...</Text>
 					</View>
-					<Text style={styles.body}>23 August 2023</Text>
-				</View>
-				<View style={styles.wrapper}>
-					<View>
-						<Text style={styles.title}>Malaria Medications</Text>
-						<Text style={styles.body}>Prescribed by Dr Franklin Nwoke</Text>
-					</View>
-					<Text style={styles.body}>23 August 2023</Text>
-				</View>
-				<View style={styles.wrapper}>
-					<View>
-						<Text style={styles.title}>Malaria Medications</Text>
-						<Text style={styles.body}>Prescribed by Dr Franklin Nwoke</Text>
-					</View>
-					<Text style={styles.body}>23 August 2023</Text>
-				</View>
-				<View style={styles.wrapper}>
-					<View>
-						<Text style={styles.title}>Malaria Medications</Text>
-						<Text style={styles.body}>Prescribed by Dr Franklin Nwoke</Text>
-					</View>
-					<Text style={styles.body}>23 August 2023</Text>
-				</View>
-				<View style={styles.wrapper}>
-					<View>
-						<Text style={styles.title}>Malaria Medications</Text>
-						<Text style={styles.body}>Prescribed by Dr Franklin Nwoke</Text>
-					</View>
-					<Text style={styles.body}>23 August 2023</Text>
-				</View>
-				<View style={styles.wrapper}>
-					<View>
-						<Text style={styles.title}>Malaria Medications</Text>
-						<Text style={styles.body}>Prescribed by Dr Franklin Nwoke</Text>
-					</View>
-					<Text style={styles.body}>23 August 2023</Text>
-				</View>
-				<View style={styles.wrapper}>
-					<View>
-						<Text style={styles.title}>Malaria Medications</Text>
-						<Text style={styles.body}>Prescribed by Dr Franklin Nwoke</Text>
-					</View>
-					<Text style={styles.body}>23 August 2023</Text>
-				</View>
-				{/* <TouchableOpacity style={styles.add_medication}>
+				) : (
+					<FlatList
+						data={allMedications}
+						renderItem={patient => renderItem(patient)}
+						keyExtractor={patient => patient._id}
+					/>
+				)}
+				<TouchableOpacity
+					onPress={() => setModalVisible(true)}
+					style={styles.add_medication}
+				>
 					<Svg
 						width='24'
 						height='24'
@@ -74,8 +104,8 @@ const Medications = () => {
 							fill='#6E44FF'
 						/>
 					</Svg>
-				</TouchableOpacity> */}
-			</ScrollView>
+				</TouchableOpacity>
+			</View>
 		</View>
 	);
 };
@@ -83,6 +113,12 @@ const Medications = () => {
 export default Medications;
 
 const styles = StyleSheet.create({
+	loader: {
+		justifyContent: 'center',
+		alignItems: 'center',
+		display: 'flex',
+		paddingTop: 100,
+	},
 	wrapper: {
 		display: 'flex',
 		alignItems: 'center',

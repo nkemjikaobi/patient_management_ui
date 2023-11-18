@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { Path, Svg } from 'react-native-svg';
 
-const AddTestModal = ({ modalVisible, setModalVisible }) => {
+const AddMedicationModal = ({ modalVisible, setModalVisible }) => {
 	return (
 		<View style={styles.centeredView}>
 			<View style={styles.modalView}>
@@ -23,7 +23,7 @@ const AddTestModal = ({ modalVisible, setModalVisible }) => {
 						width: '100%',
 					}}
 				>
-					<Text style={styles.modalText}>Add Test</Text>
+					<Text style={styles.modalText}>Add Medication</Text>
 					<TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
 						<Svg
 							width='21'
@@ -70,7 +70,7 @@ const AddTestModal = ({ modalVisible, setModalVisible }) => {
 	);
 };
 
-export default AddTestModal;
+export default AddMedicationModal;
 
 const styles = StyleSheet.create({
 	//Modal

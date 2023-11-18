@@ -34,7 +34,7 @@ export default function PatientsTab(props) {
 	// Use useFocusEffect to run code when the screen is focused
 	useFocusEffect(
 		useCallback(() => {
-			// Fetch patients or trigger any action you want when the screen is focused
+			// Fetch patients when the screen is focused
 			fetchPatients();
 		}, [])
 	);

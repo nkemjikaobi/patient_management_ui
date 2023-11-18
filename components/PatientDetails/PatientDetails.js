@@ -45,7 +45,7 @@ const PatientDetails = ({ route, navigation }) => {
 		useCallback(() => {
 			// Check if route.params.patient._id exists
 			if (route.params.patient?._id) {
-				// Fetch patient details or trigger any action you want
+				// Fetch patient details
 				fetchPatientDetails(route.params.patient?._id);
 			}
 		}, [route.params.patient?._id])
