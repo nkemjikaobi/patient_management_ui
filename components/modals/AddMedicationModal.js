@@ -9,8 +9,71 @@ import {
 	View,
 } from 'react-native';
 import { Path, Svg } from 'react-native-svg';
+import Toast from 'react-native-root-toast';
 
-const AddMedicationModal = ({ modalVisible, setModalVisible }) => {
+const AddMedicationModal = ({
+	modalVisible,
+	setModalVisible,
+	patient,
+	manualRefetch,
+}) => {
+	const [medicationDetails, setMedicationDetails] = useState({
+		name: '',
+		doctor: '',
+		prescription: '',
+		date_prescribed: '',
+	});
+	const [loading, setLoading] = useState(false);
+
+	const addMedicationHandler = async () => {
+		const isDetailsValid = Object.values(medicationDetails).every(
+			value => value !== ''
+		);
+
+		if (isDetailsValid) {
+			setLoading(true);
+			try {
+				const response = await fetch(
+					`https://patient-management-system-api.onrender.com/patients/${patient?._id}/medications`,
+					{
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify(medicationDetails),
+					}
+				);
+
+				if (!response.ok) {
+					Toast.show('An error occurred while adding medication.', {
+						duration: Toast.durations.LONG,
+					});
+					setLoading(false);
+				} else {
+					const addedPatient = await response.json();
+
+					Toast.show('Medication added.', {
+						duration: Toast.durations.LONG,
+					});
+
+					manualRefetch();
+
+					setModalVisible(false);
+				}
+			} catch (error) {
+				console.error('Error adding medication:', error);
+				Toast.show('An error occurred while adding medication', {
+					duration: Toast.durations.LONG,
+				});
+				setLoading(false);
+			}
+		} else {
+			Toast.show('All fields besides are required.', {
+				duration: Toast.durations.LONG,
+			});
+		}
+	};
+
 	return (
 		<View style={styles.centeredView}>
 			<View style={styles.modalView}>
@@ -41,27 +104,65 @@ const AddMedicationModal = ({ modalVisible, setModalVisible }) => {
 				</View>
 				<ScrollView style={styles.form_wrapper}>
 					<View>
-						<Text>Test Name*</Text>
-						<TextInput style={styles.input} placeholder='Blood Pressure' />
+						<Text>Name*</Text>
+						<TextInput
+							onChangeText={value =>
+								setMedicationDetails({ ...medicationDetails, name: value })
+							}
+							value={medicationDetails.name}
+							style={styles.input}
+							placeholder='Malaria Medicine'
+						/>
 					</View>
 					<View>
-						<Text>Value*</Text>
-						<TextInput style={styles.input} placeholder='Value' />
+						<Text>Doctor*</Text>
+						<TextInput
+							onChangeText={value =>
+								setMedicationDetails({ ...medicationDetails, doctor: value })
+							}
+							value={medicationDetails.doctor}
+							style={styles.input}
+							placeholder='Dr Belinda Sasha'
+						/>
 					</View>
 					<View>
-						<Text>Test Date*</Text>
-						<TextInput style={styles.input} placeholder='Test Date' />
+						<Text>Prescripion*</Text>
+						<TextInput
+							onChangeText={value =>
+								setMedicationDetails({
+									...medicationDetails,
+									prescription: value,
+								})
+							}
+							value={medicationDetails.prescription}
+							style={styles.input}
+							placeholder='2 tablets , twice daily'
+						/>
 					</View>
 					<View>
-						<Text>Notes*</Text>
-						<TextInput style={styles.input} placeholder='Notes' />
+						<Text>Date Prescribed*</Text>
+						<TextInput
+							onChangeText={value =>
+								setMedicationDetails({
+									...medicationDetails,
+									date_prescribed: value,
+								})
+							}
+							value={medicationDetails.date_prescribed}
+							style={styles.input}
+							placeholder='DD-MM-YYYY'
+						/>
 					</View>
 					<View style={styles.buttonContainer}>
 						<TouchableOpacity
-							onPress={() => props.navigation.navigate('Add Patient')}
+							onPress={() => addMedicationHandler()}
 							style={styles.add_patient_btn}
+							disabled={loading}
 						>
-							<Text style={{ color: '#fff' }}>Add Test</Text>
+							<Text style={{ color: '#fff' }}>
+								{' '}
+								{loading ? 'Adding Medication...' : 'Add Medication'}
+							</Text>
 						</TouchableOpacity>
 					</View>
 				</ScrollView>

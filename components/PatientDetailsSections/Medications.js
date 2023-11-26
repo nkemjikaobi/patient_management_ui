@@ -2,6 +2,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useState } from 'react';
 import {
 	ActivityIndicator,
+	FlatList,
 	Modal,
 	StyleSheet,
 	Text,
@@ -51,10 +52,10 @@ const Medications = ({ patient }) => {
 	const renderItem = data => (
 		<View style={styles.wrapper}>
 			<View>
-				<Text style={styles.title}>Malaria Medications</Text>
-				<Text style={styles.body}>Prescribed by Dr Franklin Nwoke</Text>
+				<Text style={styles.title}>{data?.item?.name}</Text>
+				<Text style={styles.body}>Prescribed by {data?.item?.doctor}</Text>
 			</View>
-			<Text style={styles.body}>23 August 2023</Text>
+			<Text style={styles.body}>{data?.item?.date_prescribed}</Text>
 		</View>
 	);
 
@@ -71,6 +72,8 @@ const Medications = ({ patient }) => {
 				<AddMedicationModal
 					modalVisible={modalVisible}
 					setModalVisible={setModalVisible}
+					patient={patient}
+					manualRefetch={manualRefetch}
 				/>
 			</Modal>
 			<View style={{ position: 'relative' }}>
