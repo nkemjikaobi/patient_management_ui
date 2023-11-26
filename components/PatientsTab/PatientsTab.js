@@ -60,6 +60,7 @@ export default function PatientsTab(props) {
 					style={styles.input}
 					onChangeText={setSearchTerm}
 					value={searchTerm}
+					testID='search-all-patients'
 				/>
 			</View>
 			<View style={{ paddingHorizontal: 20 }}>
