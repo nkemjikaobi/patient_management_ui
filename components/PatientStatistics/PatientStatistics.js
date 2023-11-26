@@ -5,13 +5,13 @@ const PatientStatistics = ({ allPatients, criticalPatients }) => {
 	return (
 		<View style={styles.card_wrapper}>
 			<View style={styles.card}>
-				<Text style={styles.card_title}>Admitted Patients</Text>
+				<Text testID='admitted-label' style={styles.card_title}>Admitted Patients</Text>
 				<Text style={styles.card_value}>
 					{allPatients.length || 0} Patients
 				</Text>
 			</View>
 			<View style={styles.card}>
-				<Text style={styles.card_title}>Critical Patients</Text>
+				<Text testID='critical-label' style={styles.card_title}>Critical Patients</Text>
 				<Text style={styles.card_value}>
 					{criticalPatients.length || 0} Patients
 				</Text>

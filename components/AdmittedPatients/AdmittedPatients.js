@@ -35,6 +35,7 @@ const AdmittedPatients = ({ loading, admittedPatients }) => {
 				style={styles.input}
 				onChangeText={setSearchTerm}
 				value={searchTerm}
+				testID='search-admitted-patients'
 			/>
 
 			{!loading && admittedPatients?.length === 0 ? (
