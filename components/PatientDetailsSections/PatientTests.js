@@ -109,6 +109,7 @@ const PatientTests = ({ patient }) => {
 				<TouchableOpacity
 					onPress={() => setModalVisible(true)}
 					style={styles.add_tests}
+					testID='add-icon'
 				>
 					<Svg
 						width='24'
