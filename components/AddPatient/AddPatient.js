@@ -174,6 +174,7 @@ const AddPatient = props => {
 						<TextInput
 							style={styles.input}
 							placeholder='Clement'
+							testID='first-name'
 							onChangeText={value =>
 								setPatientDetails({ ...patientDetails, first_name: value })
 							}
@@ -185,6 +186,7 @@ const AddPatient = props => {
 						<TextInput
 							style={styles.input}
 							placeholder='Scott'
+							testID='last-name'
 							onChangeText={value =>
 								setPatientDetails({ ...patientDetails, last_name: value })
 							}
@@ -204,6 +206,7 @@ const AddPatient = props => {
 						<TextInput
 							style={styles.input}
 							placeholder='clementscott@gmail.com'
+							testID='email'
 							onChangeText={value =>
 								setPatientDetails({ ...patientDetails, email: value })
 							}
@@ -215,6 +218,7 @@ const AddPatient = props => {
 						<TextInput
 							keyboardType='phone-pad'
 							style={styles.input}
+							testID='phone-number'
 							placeholder='647-987-4758'
 							onChangeText={value =>
 								setPatientDetails({ ...patientDetails, phone_number: value })
@@ -229,6 +233,7 @@ const AddPatient = props => {
 						style={styles.input}
 						placeholder='20, Progress Avenue'
 						multiline
+						testID='address'
 						onChangeText={value =>
 							setPatientDetails({ ...patientDetails, house_address: value })
 						}
